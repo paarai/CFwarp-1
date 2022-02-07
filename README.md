@@ -125,52 +125,7 @@ wget -N https://cdn.jsdelivr.net/gh/kkkyg/CFwarp/CFwarp.sh && bash CFwarp.sh
 ------------------------------------------------------------------------------------------------------
 ### 自定义ip分流配置模板说明（Socks5代理分流-待更新）
 
-分流配置文件：outbounds配置文件或者routing配置文件，让IP、域名自定义。大家可根据代理脚本作者说明来查找文件路径！
-
-```
-{ 
-"outbounds": [
-    {
-      "tag":"IP4-out",
-      "protocol": "freedom",
-      "settings": {}
-    },
-    {
-      "tag":"IP6-out",
-      "protocol": "freedom",
-      "settings": {
-        "domainStrategy": "UseIPv6" 
-      }
-    }
-  ],
-  "routing": {
-    "rules": [
-      {
-        "type": "field",
-        "outboundTag": "IP4-out",
-        "domain": [""] 
-      },
-      {
-        "type": "field",
-        "outboundTag": "IP6-out",
-        "network": "udp,tcp" 
-      }
-    ]
-  }
-}
-```
-
-outbounds部分："domainStrategy"后是"UseIPv6"还是"UseIPv4"？？
-
-比如 纯v6添加虚拟4：UseIPv4。添加双栈V4+V6：UseIPv6
-
-比如 纯v4添加虚拟6：UseIPv6。添加双栈V4+V6：UseIPv6
-
-比如 双栈添加虚拟6：UseIPv6。双栈添加虚拟4：UseIPv4。双栈添加虚拟双栈V4+V6：UseIPv6
-
-比如 双栈直接分流：UseIPv4
-
-routing部分：设置自由度太高啦！可参考IP、域名自定义,德鸡IPV6/Hax IPV6教程：待发布
+分流配置文件：outbounds配置文件或者routing配置文件，让IP、域名自定义。待更新
 
 ----------------------------------------------------------------------------------------------
 
