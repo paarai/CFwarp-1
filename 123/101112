@@ -1,6 +1,6 @@
 "outbounds": [
 {
-"tag":"IP4-out",   //hggg
+"tag":"IP4-out", 
 "protocol": "freedom",
 "settings": {}
 },
