@@ -386,7 +386,6 @@ warp-cli --accept-tos register >/dev/null 2>&1 && sleep 2
 warp-cli --accept-tos set-mode proxy >/dev/null 2>&1
 warp-cli --accept-tos enable-always-on >/dev/null 2>&1
 ShowSOCKS5
-[[ $socks5 = on ]] && green "Socks5-WARP启动成功" || red "Socks5-WARP(+)启动失败"
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 S5menu && back
@@ -607,7 +606,6 @@ warp-cli --accept-tos disable-always-on >/dev/null 2>&1
 elif [[ $(warp-cli --accept-tos status) =~ 'Disconnected' ]]; then
 yellow "当前WARP(+)：临时关闭状态，现执行：恢复运行……" && sleep 1
 warp-cli --accept-tos enable-always-on >/dev/null 2>&1
-[[ $(warp-cli --accept-tos status) =~ 'Connected' ]] && green "恢复开启WARP(+)成功" || red "临时开启WARP(+)失败"
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 fi
