@@ -524,6 +524,7 @@ ab="1.启用：离线后台+重启VPS自动刷NF功能\n2.启用：离线后台+
 readp "$ab" cd
 case "$cd" in  
 1 )
+[[ -e /root/WARP-CR.sh ]] && yellow "经检测，你正在使用自动刷区域IP功能，请关闭后再启动刷NF功能" && REnfwarp
 [[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
 wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
@@ -538,6 +539,7 @@ grep -qE "^ *@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/de
 green "添加VPS重启后自动刷奈飞IP功能，重启VPS后自动生效（目前不支持纯IPV6的VPS）"
 back;;
 2 )
+[[ -e /root/check.sh ]] && yellow "经检测，你正在使用自动刷NF功能，请关闭后再启动刷区域IP功能" && REnfwarp
 [[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
 wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/WARP-CR/main/WARP-CR.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
