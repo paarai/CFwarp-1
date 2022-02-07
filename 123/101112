@@ -18,7 +18,7 @@
 "servers": [
 {
 "address": "127.0.0.1",
-"port": 40000
+"port": 40000 
 }
 ]
 }      
@@ -30,12 +30,12 @@
 {
 "type": "field",
 "outboundTag": "IP6-out",
-"domain": [""]
+"domain": [""]  // 必填！自定义域名走IPv6，例：["geosite:netflix","geosite:*****"]或["netflix.com","****.**"]
 },
 {
 "type": "field",
-"outboundTag": "warp",
-"domain": [""]
+"outboundTag": "socks5-warp", 
+"domain": [""]  // 必填！自定义域名走socks5-warp，，例：["geosite:netflix","geosite:*****"]或["netflix.com","****.**"]
 },
 {
 "type": "field",
