@@ -145,7 +145,6 @@ fi
 }
 WGCFv4(){
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
-[[ -n $(grep 8.8.8.8 /etc/resolv.conf) && -e /root/resolv.conf ]] && cat /root/resolv.conf > /etc/resolv.conf || \cp -f /etc/resolv.conf /root/resolv.conf
 ShowWGCF
 if [[ -n $v4 && -n $v6 ]]; then
 green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV4单栈"
@@ -163,7 +162,6 @@ fi
 
 WGCFv6(){
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
-[[ -n $(grep 8.8.8.8 /etc/resolv.conf) && -e /root/resolv.conf ]] && cat /root/resolv.conf > /etc/resolv.conf || \cp -f /etc/resolv.conf /root/resolv.conf
 ShowWGCF
 if [[ -n $v4 && -n $v6 ]]; then
 green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV6单栈"
@@ -181,7 +179,6 @@ fi
 
 WGCFv4v6(){
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
-[[ -n $(grep 8.8.8.8 /etc/resolv.conf) && -e /root/resolv.conf ]] && cat /root/resolv.conf > /etc/resolv.conf || \cp -f /etc/resolv.conf /root/resolv.conf
 ShowWGCF
 if [[ -n $v4 && -n $v6 ]]; then
 green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV4+IPV6双栈"
@@ -343,7 +340,6 @@ echo $ABC1 | sh
 echo $ABC2 | sh
 echo $ABC3 | sh
 echo $ABC4 | sh
-dns
 cp -f wgcf-profile.conf /etc/wireguard/wgcf.conf >/dev/null 2>&1
 mv -f wgcf-profile.conf /etc/wireguard >/dev/null 2>&1
 mv -f wgcf-account.toml /etc/wireguard >/dev/null 2>&1
@@ -619,7 +615,6 @@ cwg(){
 wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
 $yumapt autoremove wireguard-tools
-[[ -n $(grep 8.8.8.8 /etc/resolv.conf) && -e /root/resolv.conf ]] && cat /root/resolv.conf > /etc/resolv.conf
 }
 cso(){
 warp-cli --accept-tos disconnect >/dev/null 2>&1
@@ -627,7 +622,7 @@ warp-cli --accept-tos disable-always-on >/dev/null 2>&1
 warp-cli --accept-tos delete >/dev/null 2>&1
 [[ $release = Centos ]] && (yum autoremove cloudflare-warp -y) || (apt purge cloudflare-warp -y && rm -f /etc/apt/sources.list.d/cloudflare-client.list)
 }
-wj="rm -rf /usr/local/bin/wgcf /etc/wireguard/wgcf.conf /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf-account.toml /etc/wireguard/wgcf+p.log /etc/wireguard/ID /usr/bin/wireguard-go wgcf-account.toml wgcf-profile.conf resolv.conf"
+wj="rm -rf /usr/local/bin/wgcf /etc/wireguard/wgcf.conf /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf-account.toml /etc/wireguard/wgcf+p.log /etc/wireguard/ID /usr/bin/wireguard-go wgcf-account.toml wgcf-profile.conf"
 ab="1.仅卸载Wgcf-WARP(+)\n2.仅卸载Socks5-WARP(+)\n3.彻底卸载并清除所有WARP及脚本文件\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in     
