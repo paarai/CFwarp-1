@@ -169,7 +169,7 @@ ABC1=$ud6 && ABC2=$c1 && ABC3=$c5 && WGCFins
 fi
 if [[ -n $v6 && -z $v4 ]]; then
 green "vps真IP特征:原生v6单栈vps\n现添加Wgcf-WARP-IPV6单栈 (无IPV4！！！)"
-STOPwgcf ; ABC1=$ud6 && ABC2=$c1 && ABC3=$c4 && ABC4=$c6 && WGCFins
+ABC1=$ud6 && ABC2=$c1 && ABC3=$c4 && ABC4=$c6 && WGCFins
 fi
 if [[ -z $v6 && -n $v4 ]]; then
 green "vps真IP特征:原生v4单栈vps\n现添加Wgcf-WARP-IPV6单栈"
