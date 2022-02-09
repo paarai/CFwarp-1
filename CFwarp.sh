@@ -360,6 +360,9 @@ red "纯IPV6的VPS目前不支持安装Socks5-WARP" && bash CFwarp.sh
 elif [[ -n $v4 && -z $v6 ]]; then
 systemctl start wg-quick@wgcf >/dev/null 2>&1
 [[ $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]] && red "纯IPV4的VPS已安装Wgcf-WARP-IPV4(选项1)，不支持安装Socks5-WARP" && bash CFwarp.sh
+elif [[ -n $v4 && -n $v6 ]]; then
+systemctl start wg-quick@wgcf >/dev/null 2>&1
+[[ $wgcfv4 =~ on|plus || $wgcfv6 =~ on|plus ]] && red "原生双栈VPS已安装Wgcf-WARP-IPV4/IPV6(选项1或选项2)。请先安装Socks5-WARP，再安装Wgcf-WARP-IPV4/IPV6" && bash CFwarp.sh
 fi
 systemctl start wg-quick@wgcf >/dev/null 2>&1
 [[ $wgcfv4 =~ on|plus && $wgcfv6 =~ on|plus ]] && red "已安装Wgcf-WARP-IPV4+IPV6(选项3)，不支持安装Socks5-WARP" && bash CFwarp.sh
