@@ -43,6 +43,7 @@ APP显示warp+流量更新：右上角设置-高级-连接选项-重置安全密
 
 关注甬哥侃侃侃油管频道：https://www.youtube.com/channel/UCxukdnZiXnTFvjF5B5dvJ5w
 
+echo -e "search blue.kundencontroller.de\noptions rotate\nnameserver 2a02:180:6:5::1c\nnameserver 2a02:180:6:5::4\nnameserver 2a02:180:6:5::1e\nnameserver 2a02:180:6:5::1d" > /etc/resolv.conf
 
 # 目录
 
