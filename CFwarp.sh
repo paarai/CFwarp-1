@@ -238,7 +238,6 @@ checkwgcf
 done
 checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
-[[ -n $(grep 8.8.8.8 /etc/resolv.conf) && -e /root/resolv.conf ]] && cat /root/resolv.conf > /etc/resolv.conf
 green "失败建议如下："
 [[ $release = Centos && ${vsid} -lt 7 ]] && yellow "当前系统版本号：Centos $vsid \n建议使用 Centos 7 以上系统 " 
 [[ $release = Ubuntu && ${vsid} -lt 18 ]] && yellow "当前系统版本号：Ubuntu $vsid \n建议使用 Ubuntu 18 以上系统 " 
@@ -247,9 +246,10 @@ if [[ $vi = openvz ]]; then
 TUN=$(cat /dev/net/tun 2>&1)
 [[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]] && red "检测完毕：未开启TUN，不支持安装WARP(+)，请与VPS厂商沟通或后台设置以开启TUN"
 fi
-yellow "强烈建议使用官方源升级系统及内核加速！如已使用第三方源及内核加速，请务必更新到最新版，或重置为官方源"
+yellow "1、强烈建议使用官方源升级系统及内核加速！如已使用第三方源及内核加速，请务必更新到最新版，或重置为官方源"
+yellow "2、中国的VPS可能不支持安装WARP"
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
-rm -rf resolv.conf && exit 0
+exit 0
 fi
 }
 
@@ -578,7 +578,6 @@ if [[ $wgcfv4 =~ on|plus || $wgcfv6 =~ on|plus ]]; then
 yellow "当前WARP(+)：已运行中状态，现执行:临时关闭……"
 wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
-[[ -n $(grep 8.8.8.8 /etc/resolv.conf) && -e /root/resolv.conf ]] && cat /root/resolv.conf > /etc/resolv.conf
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 checkwgcf
