@@ -18,32 +18,28 @@
       "tag": "api"
     }
   ],
-  "outbounds": [
-{
-"tag":"IP4-out", 
-"protocol": "freedom",
-"settings": {}
+  "sniffing": {
+    "enabled": true,
+    "destOverride": ["http", "tls"]
 },
-{
-"tag":"IP6-out",
-"protocol": "freedom",
-"settings": {
-"domainStrategy": "UseIPv6" 
-}
-},
-{
-"tag": "socks5-warp",
-"protocol": "socks",
-"settings": {
-"servers": [
-{
-"address": "127.0.0.1",
-"port": 40000 
-}
-]
-}      
-}
-],
+   "outbounds": [
+        {
+            "tag": "default",
+            "protocol": "freedom"
+        },
+        {
+            "tag":"socks5_out",
+            "protocol": "socks",
+            "settings": {
+                "servers": [
+                     {
+                        "address": "127.0.0.1",
+                        "port": 40000
+                    }
+                ]
+            }
+        }
+    ],
   "policy": {
     "system": {
       "statsInboundDownlink": true,
@@ -52,21 +48,16 @@
   },
   "routing": {
     "rules": [
-{
-"type": "field",
-"outboundTag": "IP6-out",
-"domain": ["ip.gs"]  
-},
-{
-"type": "field",
-"outboundTag": "socks5-warp", 
-"domain": ["google.com"] 
-},
-{
-"type": "field",
-"outboundTag": "IP4-out",
-"network": "udp,tcp" 
-},
+ {
+      "type": "field",
+      "outboundTag": "socks5_out",
+      "domain": ["geosite:netflix"]
+            },
+  {
+      "type": "field",
+      "outboundTag": "default",
+      "network": "udp,tcp"
+            },
       {
         "inboundTag": [
           "api"
