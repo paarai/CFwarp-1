@@ -15,13 +15,13 @@
       "settings": {
         "address": "127.0.0.1"
       },
-      "tag": "api"
-    }
-  ],
-  "sniffing": {
+      "tag": "api",
+      "sniffing": {
     "enabled": true,
     "destOverride": ["http", "tls"]
-},
+   }
+    }
+  ],
    "outbounds": [
         {
             "tag": "default",
