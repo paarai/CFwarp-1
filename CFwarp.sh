@@ -588,7 +588,7 @@ checkwgcf
 [[ $wgcfv6 = off || $wgcfv4 = off ]] && green "关闭WARP(+)成功" || red "关闭WARP(+)失败"
 elif [[ $wgcfv6 = off || $wgcfv4 = off ]]; then
 yellow "当前WARP(+)：临时关闭状态，现执行:恢复运行……"
-dns && systemctl enable wg-quick@wgcf >/dev/null 2>&1
+systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
