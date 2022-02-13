@@ -20,7 +20,7 @@
   ],
   "outbounds": [
 {
-"tag":"IP4-out", 
+"tag":"IP6-out", 
 "protocol": "freedom",
 "settings": {}
 },
@@ -28,20 +28,8 @@
 "tag":"IP6-out",
 "protocol": "freedom",
 "settings": {
-"domainStrategy": "UseIPv6" 
+"domainStrategy": "UseIPv4" 
 }
-},
-{
-"tag": "socks5-warp",
-"protocol": "socks",
-"settings": {
-"servers": [
-{
-"address": "127.0.0.1",
-"port": 40000 
-}
-]
-}      
 }
 ],
   "policy": {
@@ -56,11 +44,6 @@
 "type": "field",
 "outboundTag": "IP6-out",
 "domain": ["ip.gs"]  
-},
-{
-"type": "field",
-"outboundTag": "socks5-warp", 
-"domain": ["google.com"] 
 },
 {
 "type": "field",
