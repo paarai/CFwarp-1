@@ -658,7 +658,7 @@ yellow " 脚本会自动提示选项4(Socks5-WARP)与选项1、2、3(Wgcf-WARP)�
 green "  1. 安装Wgcf-WARP:虚拟IPV4"      
 green "  2. 安装Wgcf-WARP:虚拟IPV6"      
 green "  3. 安装Wgcf-WARP:虚拟IPV4+IPV6" 
-[[ $cpu != AMD64 ]] && red "4. 提示：当前VPS的CPU并非AMD64架构，目前不支持安装Socks5-WARP(+)" || green "  4. 安装Socks5-WARP：IPV4本地Socks5代理"
+[[ $cpu != AMD64 ]] && red "  4. 提示：当前VPS的CPU并非AMD64架构，目前不支持安装Socks5-WARP(+)" || green "  4. 安装Socks5-WARP：IPV4本地Socks5代理"
 white " -------------------------------------------------------------------------------------------"    
 green "  5. WARP账户升级：WARP+账户与WARP+Teams账户"
 green "  6. WARPR解锁NF奈飞：自动识别WARP配置环境" 
