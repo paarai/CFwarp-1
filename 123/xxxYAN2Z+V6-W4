@@ -18,6 +18,10 @@
       "tag": "api"
     }
   ],
+  "sniffing": {
+    "enabled": true,
+    "destOverride": ["http", "tls"]
+},
   "outbounds": [
 {
 "tag":"IP6-out", 
