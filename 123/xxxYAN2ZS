@@ -18,9 +18,13 @@
       "tag": "api"
     }
   ],
+  "sniffing": {
+    "enabled": true,
+    "destOverride": ["http", "tls"]
+},
   "outbounds": [
 {
-"tag":"IP4-out", 
+"tag":"IP6-out", 
 "protocol": "freedom",
 "settings": {}
 },
@@ -28,7 +32,7 @@
 "tag":"IP6-out",
 "protocol": "freedom",
 "settings": {
-"domainStrategy": "UseIPv6" 
+"domainStrategy": "UseIPv4" 
 }
 },
 {
