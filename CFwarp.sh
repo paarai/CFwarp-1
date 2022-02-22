@@ -378,8 +378,8 @@ if [[ $release = Debian ]]; then
 fi
 if [[ $release != Centos ]]; then 
 apt install net-tools -y
-curl https://pkg.cloudflareclient.com/pubkey.gpg | apt-key add -
-echo "deb http://pkg.cloudflareclient.com/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/cloudflare-client.list
+curl https://pkg.cloudflareclient.com/pubkey.gpg | gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] http://pkg.cloudflareclient.com/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/cloudflare-client.list
 apt update;apt install cloudflare-warp -y
 fi
 warp-cli --accept-tos register >/dev/null 2>&1 && sleep 2
