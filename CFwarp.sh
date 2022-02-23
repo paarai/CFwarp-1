@@ -352,6 +352,14 @@ ShowWGCF && WGCFmenu && back
 }
 
 SOCKS5ins(){
+yellow "检测Socks5-WARP安装环境中……"
+if [[ $release = Centos ]]; then
+[[ ${vsid} -ne 8 ]] && yellow "当前系统版本号：Centos $vsid \nSocks5-WARP仅支持Centos 8 " && bash CFwarp.sh 
+elif [[ $release = Ubuntu ]]; then
+[[ ${vsid} -ne 16 || ${vsid} -ne 20 ]] && yellow "当前系统版本号：Ubuntu $vsid \nSocks5-WARP仅支持 Ubuntu 16.04/20.04系统 " && bash CFwarp.sh 
+elif [[ $release = Debian ]]; then
+[[ ${vsid} -ne 9 || ${vsid} -ne 10 || ${vsid} -ne 11 ]] && yellow "当前系统版本号：Debian $vsid \nSocks5-WARP仅支持 Debian 9/10/11系统 " && bash CFwarp.sh 
+fi
 [[ $(warp-cli --accept-tos status 2>/dev/null) =~ 'Connected' ]] && red "当前Socks5-WARP已经在运行中" && bash CFwarp.sh
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
 ShowWGCF
