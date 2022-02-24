@@ -694,7 +694,7 @@ case "$Input" in
  5 ) WARPupre;;
  6 ) REnfwarp;;	
  7 ) WARPOC;;
- 0 ) exit 0
+ * ) exit 
 esac
 }
 start_menu "first"
