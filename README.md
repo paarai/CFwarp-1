@@ -13,7 +13,7 @@
 
 目前新版本一键脚本：
 ```
-wget -N https://cdn.jsdelivr.net/gh/kkkyg/CFwarp/CFwarp.sh && bash CFwarp.sh
+wget -N https://cdn.jsdelivr.net/gh/kkkyg/CFwarp@main/CFwarp.sh && bash CFwarp.sh
 ```
 
 进入脚本快捷方式 ```bash CFwarp.sh```
