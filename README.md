@@ -13,7 +13,7 @@
 
 目前新版本一键脚本：
 ```
-wget -N https://cdn.jsdelivr.net/gh/kkkyg/CFwarp@main/CFwarp.sh && bash CFwarp.sh
+wget -N https://raw.githubusercontent.com/kkkyg/CFwarp/main/CFwarp.sh && bash CFwarp.sh
 ```
 
 进入脚本快捷方式 ```bash CFwarp.sh```
@@ -103,17 +103,7 @@ echo -e "search blue.kundencontroller.de\noptions rotate\nnameserver 2a02:180:6:
 </details>
 
 -------------------------------------------------------------------------------------------------------
-### warp多功能一键脚本
 
-- **：支持X86/ARM架构的纯IPV4、纯IPV6、双栈IPV4+IPV6 VPS脚本**
-
-```
-wget -N https://cdn.jsdelivr.net/gh/kkkyg/CFwarp/CFwarp.sh && bash CFwarp.sh
-```
-
-进入脚本快捷方式 ```bash CFwarp.sh```
-
-- [刷新脚本](https://purge.jsdelivr.net/gh/kkkyg/CFwarp/CFwarp.sh)
 
 ---------------------------------------------------------------------------------------------------
 
