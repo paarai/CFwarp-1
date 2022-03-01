@@ -483,7 +483,7 @@ sed -i "27 s/input/'$ID'/" wp.py
 readp "设置screen窗口名称，回车默认名称为'wp'：" wpp
 [[ -z $wpp ]] && wpp='wp'
 screen -dmS $wpp bash -c '/usr/bin/python3 /root/wp.py' && back;;
-5 ) bash <(curl -sSL https://cdn.jsdelivr.net/gh/kkkyg/screen-script/screen.sh) && back;;
+5 ) wget -N https://raw.githubusercontent.com/kkkyg/screen-script/main/screen.sh && bash screen.sh&& back;;
 0 ) bash CFwarp.sh
 esac
 }
@@ -499,7 +499,7 @@ ab="1.刷新IPV4的奈飞IP\n2.刷新IPV6的奈飞IP\n0.返回上一层\n 请选
 readp "$ab" cd
 case "$cd" in 
 1 )
-[[ $wgcfv4 = plus || $wgcfv4 = on ]] || (yellow "未开启Wgcf-WARP(+)-IPV4" && CFwarp.sh)
+[[ $wgcfv4 = plus || $wgcfv4 = on ]] || (yellow "未开启Wgcf-WARP(+)-IPV4" && bash CFwarp.sh)
 i=0
 yellow "共刷新10次IP"
 while [ $i -le 9 ]; do let i++
@@ -508,7 +508,7 @@ ShowWGCF
 done
 ShowWGCF && WGCFmenu && back;;
 2 )
-[[ $wgcfv6 = plus || $wgcfv6 = on ]] || (yellow "未开启Wgcf-WARP(+)-IPV6" && CFwarp.sh)
+[[ $wgcfv6 = plus || $wgcfv6 = on ]] || (yellow "未开启Wgcf-WARP(+)-IPV6" && bash CFwarp.sh)
 i=0
 yellow "共刷新10次IP"
 while [ $i -le 9 ]; do let i++
@@ -583,7 +583,7 @@ readp "$ab" cd
 case "$cd" in
 1 ) ReIP;;
 2 ) Rewarp;;
-3 ) bash <(curl -sSL https://cdn.jsdelivr.net/gh/kkkyg/screen-script/screen.sh) && back;;
+3 ) wget -N https://raw.githubusercontent.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
 0 ) bash CFwarp.sh
 esac
 }
