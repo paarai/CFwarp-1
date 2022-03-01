@@ -648,7 +648,7 @@ readp "$ab" cd
 case "$cd" in     
 1 ) [[ $(type -P wg-quick) ]] && (cwg ; $wj ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; green "Wgcf-WARP(+)卸载完成" && ShowWGCF && WGCFmenu && back) || (yellow "并未安装Wgcf-WARP(+)，无法卸载" && bash CFwarp.sh);;
 2 ) [[ $(type -P warp-cli) ]] && (cso ; green "Socks5-WARP(+)卸载完成" && ShowSOCKS5 && S5menu && back) || (yellow "并未安装Socks5-WARP(+)，无法卸载" && bash CFwarp.sh);;
-3 ) [[ ! $(type -P wg-quick) && ! $(type -P warp-cli) ]] && (red "并没有安装任何的WARP功能，无法卸载" && CFwarp.sh) || (cwg ; cso ; $wj ; rm -rf CFwarp.sh check.sh WARP-CR.sh ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; green "WARP已全部卸载完成" && ShowSOCKS5 && ShowWGCF && WGCFmenu && S5menu && back);;
+3 ) [[ ! $(type -P wg-quick) && ! $(type -P warp-cli) ]] && (red "并没有安装任何的WARP功能，无法卸载" && CFwarp.sh) || (cwg ; cso ; $wj ; rm -rf CFwarp.sh check.sh WARP-CR.sh screen.sh ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; green "WARP已全部卸载完成" && ShowSOCKS5 && ShowWGCF && WGCFmenu && S5menu && back);;
 0 ) WARPOC
 esac
 }
