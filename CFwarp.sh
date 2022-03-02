@@ -484,7 +484,7 @@ sed -i "27 s/input/'$ID'/" wp.py
 readp "设置screen窗口名称，回车默认名称为'wp'：" wpp
 [[ -z $wpp ]] && wpp='wp'
 screen -dmS $wpp bash -c '/usr/bin/python3 /root/wp.py' && back;;
-5 ) wget -N https://raw.githubusercontent.com/kkkyg/screen-script/main/screen.sh && bash screen.sh&& back;;
+5 ) wget -N https://raw.githubusercontent.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
 0 ) bash CFwarp.sh
 esac
 }
