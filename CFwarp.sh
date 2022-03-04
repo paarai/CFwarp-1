@@ -546,9 +546,9 @@ case "$cd" in
 wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd/$gj/g" check.sh || (sed -i "s/dd/\$region/g" check.sh && green "当前设置WARP默认随机分配的国家区域: $g4 ")
-readp "已是奈飞IP或者指定区域时，重新检测间隔时间（回车默认45秒）,请输入间隔时间（例：50秒，输入50）:" stop
+readp "已是奈飞IP或者指定IP区域时，重新检测间隔时间（回车默认45秒）,请输入间隔时间（例：50秒，输入50）:" stop
 [[ -n $stop ]] && sed -i "s/45s/${stop}s/g;s/45秒/${stop}秒/g" check.sh || green "默认间隔45秒"
-readp "非奈飞IP或者非指定区域时，继续检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
+readp "非奈飞IP或者非指定IP区域时，继续检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
 [[ -n $goon ]] && sed -i "s/30s/${goon}s/g;s/30秒/${goon}秒/g" check.sh || green "默认间隔30秒"
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 green "设置screen窗口名称'aw'，离线后台自动刷奈飞IP" && sleep 2
@@ -563,10 +563,10 @@ readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输�
 [[ -n $gj ]] && sed -i "s/dd4/$gj/g" WARP-CR.sh || (sed -i "s/dd4/\$eg4/g" WARP-CR.sh && green "IPV4当前设置WARP默认分配的国家区域: $g4 ")
 [[ -n $gj ]] && sed -i "s/dd6/$gj/g" WARP-CR.sh || (sed -i "s/dd6/\$eg6/g" WARP-CR.sh && green "IPV6当前设置WARP默认分配的国家区域: $g6 ")
 [[ -n $gj ]] && sed -i "s/ddj/$gj/g" WARP-CR.sh || (sed -i "s/ddj/\$egj/g" WARP-CR.sh && green "Socks5当前设置WARP默认分配的国家区域: $s5gj ")
-readp "已是指定IP区域，重新检测间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
-[[ -n $stop ]] && sed -i "s/60s/${stop}s/g" WARP-CR.sh || green "默认60秒"
-readp "非指定IP区域，重新检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
-[[ -n $goon ]] && sed -i "s/30s/${goon}s/g" WARP-CR.sh || green "默认30秒"
+readp "已是指定IP区域时，重新检测间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
+[[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-CR.sh || green "默认间隔60秒"
+readp "非指定IP区域时，重新检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
+[[ -n $goon ]] && sed -i "s/30s/${goon}s/g;s/30秒/${goon}秒/g" WARP-CR.sh || green "默认间隔30秒"
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 green "设置screen窗口名称'cr'，离线后台自动刷WARP指定区域IP" && sleep 2
 grep -qE "^ *@reboot root screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" >> /etc/crontab
