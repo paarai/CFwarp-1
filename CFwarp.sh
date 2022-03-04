@@ -546,10 +546,10 @@ case "$cd" in
 wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd/$gj/g" check.sh || (sed -i "s/dd/\$region/g" check.sh && green "当前设置WARP默认随机分配的国家区域: $g4 ")
-readp "已是奈飞IP时，重新检测间隔时间（回车默认45秒）,请输入间隔时间（例：50秒，输入50）:" stop
-[[ -n $stop ]] && sed -i "s/45s/${stop}s/g" check.sh || (green "默认45秒" && stop=45)
+readp "已是奈飞IP或者指定区域时，重新检测间隔时间（回车默认45秒）,请输入间隔时间（例：50秒，输入50）:" stop
+[[ -n $stop ]] && sed -i "s/45s/${stop}s/g" check.sh ; sed -i "s/45秒/${stop}秒/g" check.sh || green "默认间隔45秒"
 readp "非奈飞IP或者非指定区域时，继续检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
-[[ -n $goon ]] && sed -i "s/30s/${goon}s/g" check.sh || (green "默认30秒" && goon=30)
+[[ -n $goon ]] && sed -i "s/30s/${goon}s/g" check.sh ; sed -i "s/30秒/${goon}秒/g" check.sh || green "默认间隔30秒"
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 green "设置screen窗口名称'aw'，离线后台自动刷奈飞IP" && sleep 2
 grep -qE "^ *@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" >> /etc/crontab
