@@ -55,6 +55,8 @@ fi
 [[ $(type -P yum) ]] && yumapt='yum -y' || yumapt='apt -y'
 [[ $(type -P wget) ]] || (yellow "检测到wget未安装，升级安装中" && $yumapt update;$yumapt install wget)
 [[ $(type -P curl) ]] || (yellow "检测到curl未安装，升级安装中" && $yumapt update;$yumapt install curl)
+[[ ! $(type -P python3) ]] && yellow "检测到python3未安装，升级安装中" && $yumapt install python3
+[[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
  
 ud4='sed -i "5 s/^/PostUp = ip -4 rule add from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "6 s/^/PostDown = ip -4 rule delete from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf'
 ud6='sed -i "7 s/^/PostUp = ip -6 rule add from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "8 s/^/PostDown = ip -6 rule delete from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf'
@@ -453,8 +455,6 @@ esac
 }
 
 WARPupre(){
-[[ ! $(type -P python3) ]] && yellow "检测到python3未安装，升级安装中" && $yumapt install python3
-[[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
 ab="1.Wgcf-WARP(+)账户升级到Teams账户\n2.Wgcf-WARP升级到WARP+账户、Wgcf-Socks5升级到WARP+账户、更换Socks5端口\n3.在线前台刷WARP+普通账户流量\n4.离线后台刷WARP+普通账户流量\n5.screen管理设置\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in 
@@ -542,7 +542,6 @@ readp "$ab" cd
 case "$cd" in  
 1 )
 [[ -e /root/WARP-CR.sh ]] && yellow "经检测，你正在使用自动刷区域IP功能，请关闭后再启动刷NF功能" && REnfwarp
-[[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
 wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd/$gj/g" check.sh || (sed -i "s/dd/\$region/g" check.sh && green "当前设置WARP默认随机分配的国家区域: $g4 ")
@@ -557,7 +556,6 @@ green "添加VPS重启后自动刷奈飞IP功能，重启VPS后自动生效（�
 back;;
 2 )
 [[ -e /root/check.sh ]] && yellow "经检测，你正在使用自动刷NF功能，请关闭后再启动刷区域IP功能" && REnfwarp
-[[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
 wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/WARP-CR/main/WARP-CR.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd4/$gj/g" WARP-CR.sh || (sed -i "s/dd4/\$eg4/g" WARP-CR.sh && green "IPV4当前设置WARP默认分配的国家区域: $g4 ")
