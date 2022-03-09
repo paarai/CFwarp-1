@@ -237,19 +237,17 @@ wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cu
 }
 
 CheckWARP(){
-yellow "获取WARP的IP中…………"
 i=0
 wg-quick down wgcf >/dev/null 2>&1
 systemctl start wg-quick@wgcf >/dev/null 2>&1
 while [ $i -le 4 ]; do let i++
+yellow "共执行5次，第$i次获取WARP的IP中……"
 systemctl restart wg-quick@wgcf >/dev/null 2>&1
 checkwgcf
 [[ $wgcfv4 =~ on|plus || $wgcfv6 =~ on|plus ]] && green "恭喜！WARP的IP获取成功！" && break || red "遗憾！WARP的IP获取失败"
 done
 checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
-wg-quick down wgcf >/dev/null 2>&1
-systemctl stop wg-quick@wgcf >/dev/null 2>&1
 green "失败建议如下："
 [[ $release = Centos && ${vsid} -lt 7 ]] && yellow "当前系统版本号：Centos $vsid \n建议使用 Centos 7 以上系统 " 
 [[ $release = Ubuntu && ${vsid} -lt 18 ]] && yellow "当前系统版本号：Ubuntu $vsid \n建议使用 Ubuntu 18 以上系统 " 
@@ -262,7 +260,8 @@ yellow "1、强烈建议使用官方源升级系统及内核加速！如已使�
 yellow "2、部分VPS系统极度精简，相关依赖需自行安装后再尝试"
 yellow "3、中国的VPS可能不支持安装WARP"
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
-
+yellow "还原VPS：卸载Wgcf-WARP组件……"
+cwg
 exit 0
 fi
 }
@@ -637,7 +636,6 @@ ShowSOCKS5 && S5menu && back;;
 esac
 }
 
-WARPun(){
 cwg(){
 wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
@@ -649,6 +647,8 @@ warp-cli --accept-tos disable-always-on >/dev/null 2>&1
 warp-cli --accept-tos delete >/dev/null 2>&1
 [[ $release = Centos ]] && (yum autoremove cloudflare-warp -y) || (apt purge cloudflare-warp -y && rm -f /etc/apt/sources.list.d/cloudflare-client.list /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg)
 }
+
+WARPun(){
 wj="rm -rf /usr/local/bin/wgcf /etc/wireguard/wgcf.conf /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf-account.toml /etc/wireguard/wgcf+p.log /etc/wireguard/ID /usr/bin/wireguard-go wgcf-account.toml wgcf-profile.conf"
 ab="1.仅卸载Wgcf-WARP(+)\n2.仅卸载Socks5-WARP(+)\n3.彻底卸载并清除所有WARP及脚本文件\n0.返回上一层\n 请选择："
 readp "$ab" cd
