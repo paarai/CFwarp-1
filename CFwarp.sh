@@ -148,9 +148,14 @@ red "已安装Socks5-WARP(+)，不支持当前选择的Wgcf-WARP(+)安装方案"
 systemctl start wg-quick@wgcf >/dev/null 2>&1 ; bash CFwarp.sh
 fi
 }
+v4v6(){
+v6=$(curl -s6m6 https://ip.gs -k)
+v4=$(curl -s4m6 https://ip.gs -k)
+}
+
 WGCFv4(){
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
-ShowWGCF
+v4v6
 if [[ -n $v4 && -n $v6 ]]; then
 green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV4单栈"
 ABC1=$ud4 && ABC2=$c2 && ABC3=$c5 && WGCFins
@@ -167,7 +172,7 @@ fi
 
 WGCFv6(){
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
-ShowWGCF
+v4v6
 if [[ -n $v4 && -n $v6 ]]; then
 green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV6单栈"
 ABC1=$ud6 && ABC2=$c1 && ABC3=$c5 && WGCFins
@@ -184,7 +189,7 @@ fi
 
 WGCFv4v6(){
 systemctl stop wg-quick@wgcf >/dev/null 2>&1
-ShowWGCF
+v4v6
 if [[ -n $v4 && -n $v6 ]]; then
 green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV4+IPV6双栈"
 STOPwgcf ; ABC1=$ud4ud6 && ABC2=$c5 && WGCFins
@@ -243,6 +248,8 @@ checkwgcf
 done
 checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
+wg-quick down wgcf >/dev/null 2>&1
+systemctl stop wg-quick@wgcf >/dev/null 2>&1
 green "失败建议如下："
 [[ $release = Centos && ${vsid} -lt 7 ]] && yellow "当前系统版本号：Centos $vsid \n建议使用 Centos 7 以上系统 " 
 [[ $release = Ubuntu && ${vsid} -lt 18 ]] && yellow "当前系统版本号：Ubuntu $vsid \n建议使用 Ubuntu 18 以上系统 " 
@@ -255,6 +262,7 @@ yellow "1、强烈建议使用官方源升级系统及内核加速！如已使�
 yellow "2、部分VPS系统极度精简，相关依赖需自行安装后再尝试"
 yellow "3、中国的VPS可能不支持安装WARP"
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
+
 exit 0
 fi
 }
