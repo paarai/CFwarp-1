@@ -262,6 +262,7 @@ yellow "3、中国的VPS可能不支持安装WARP"
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
 yellow "还原VPS：卸载Wgcf-WARP组件……"
 cwg
+green "卸载Wgcf-WARP组件完成"
 exit 0
 fi
 }
