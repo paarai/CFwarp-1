@@ -274,6 +274,13 @@ else
 echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" > /etc/resolv.conf
 fi
 }
+
+dig9(){
+if [[ -n $(grep 'DiG 9' /etc/hosts) ]]; then
+echo -e "search blue.kundencontroller.de\noptions rotate\nnameserver 2a02:180:6:5::1c\nnameserver 2a02:180:6:5::4\nnameserver 2a02:180:6:5::1e\nnameserver 2a02:180:6:5::1d" > /etc/resolv.conf
+fi
+}
+
 get_char(){
 SAVEDSTTY=`stty -g`
 stty -echo
@@ -641,6 +648,7 @@ cwg(){
 wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
 $yumapt autoremove wireguard-tools
+dig9
 }
 cso(){
 warp-cli --accept-tos disconnect >/dev/null 2>&1
