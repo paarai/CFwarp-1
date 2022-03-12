@@ -52,6 +52,17 @@ bbr="openvz版bbr-plus"
 else
 bbr="暂不支持显示"
 fi
+if [[ $vi = openvz ]]; then
+TUN=$(cat /dev/net/tun 2>&1)
+if [[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]]; then 
+red "检测到未开启TUN，现添加临时TUN支持，重启VPS会失效"
+green "建议与VPS厂商沟通或后台设置开启，以保持TUN永久开启状态"
+cd /dev
+mkdir net
+mknod net/tun c 10 200
+chmod 0666 net/tun
+fi
+fi
 [[ $(type -P yum) ]] && yumapt='yum -y' || yumapt='apt -y'
 [[ $(type -P wget) ]] || (yellow "检测到wget未安装，升级安装中" && $yumapt update;$yumapt install wget)
 [[ $(type -P curl) ]] || (yellow "检测到curl未安装，升级安装中" && $yumapt update;$yumapt install curl)
@@ -252,10 +263,6 @@ green "失败建议如下："
 [[ $release = Centos && ${vsid} -lt 7 ]] && yellow "当前系统版本号：Centos $vsid \n建议使用 Centos 7 以上系统 " 
 [[ $release = Ubuntu && ${vsid} -lt 18 ]] && yellow "当前系统版本号：Ubuntu $vsid \n建议使用 Ubuntu 18 以上系统 " 
 [[ $release = Debian && ${vsid} -lt 10 ]] && yellow "当前系统版本号：Debian $vsid \n建议使用 Debian 10 以上系统 "
-if [[ $vi = openvz ]]; then
-TUN=$(cat /dev/net/tun 2>&1)
-[[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]] && red "检测完毕：未开启TUN，不支持安装WARP(+)，请与VPS厂商沟通或后台设置以开启TUN"
-fi
 yellow "1、强烈建议使用官方源升级系统及内核加速！如已使用第三方源及内核加速，请务必更新到最新版，或重置为官方源"
 yellow "2、部分VPS系统极度精简，相关依赖需自行安装后再尝试"
 yellow "3、中国的VPS可能不支持安装WARP"
