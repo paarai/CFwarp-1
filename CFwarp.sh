@@ -506,7 +506,7 @@ sed -i "27 s/input/'$ID'/" wp.py
 readp "设置screen窗口名称，回车默认名称为'wp'：" wpp
 [[ -z $wpp ]] && wpp='wp'
 screen -dmS $wpp bash -c '/usr/bin/python3 /root/wp.py' && back;;
-5 ) wget -N https://raw.githubusercontent.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
+5 ) wget -N https://raw.githubusercontents.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
 0 ) bash CFwarp.sh
 esac
 }
@@ -564,7 +564,7 @@ readp "$ab" cd
 case "$cd" in  
 1 )
 [[ -e /root/WARP-CR.sh ]] && yellow "经检测，你正在使用自动刷区域IP功能，请关闭后再启动刷NF功能" && REnfwarp
-wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/Netflix-WARP/main/check.sh
+wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd/$gj/g" check.sh || (sed -i "s/dd/\$region/g" check.sh && green "当前设置WARP默认随机分配的国家区域: $g4 ")
 readp "已是奈飞IP或者指定IP区域时，重新检测间隔时间（回车默认45秒）,请输入间隔时间（例：50秒，输入50）:" stop
@@ -578,7 +578,7 @@ green "添加VPS重启后自动刷奈飞IP功能，重启VPS后自动生效（�
 back;;
 2 )
 [[ -e /root/check.sh ]] && yellow "经检测，你正在使用自动刷NF功能，请关闭后再启动刷区域IP功能" && REnfwarp
-wget -N --no-check-certificate https://raw.githubusercontent.com/kkkyg/WARP-CR/main/WARP-CR.sh
+wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-CR/main/WARP-CR.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd4/$gj/g" WARP-CR.sh || (sed -i "s/dd4/\$eg4/g" WARP-CR.sh && green "IPV4当前设置WARP默认分配的国家区域: $g4 ")
 [[ -n $gj ]] && sed -i "s/dd6/$gj/g" WARP-CR.sh || (sed -i "s/dd6/\$eg6/g" WARP-CR.sh && green "IPV6当前设置WARP默认分配的国家区域: $g6 ")
@@ -604,7 +604,7 @@ readp "$ab" cd
 case "$cd" in
 1 ) ReIP;;
 2 ) Rewarp;;
-3 ) wget -N https://raw.githubusercontent.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
+3 ) wget -N https://raw.githubusercontents.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
 0 ) bash CFwarp.sh
 esac
 }
