@@ -52,15 +52,30 @@ bbr="openvz版bbr-plus"
 else
 bbr="暂不支持显示"
 fi
-if [[ $vi = openvz ]]; then
+if [[ $vi =~ lxc|openvz ]]; then
 TUN=$(cat /dev/net/tun 2>&1)
 if [[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]]; then 
-red "检测到未开启TUN，现添加临时TUN支持，重启VPS会失效"
-green "建议与VPS厂商沟通或后台设置开启，以保持TUN永久开启状态"
+red "检测到未开启TUN，现尝试添加TUN支持"
 cd /dev
 mkdir net
 mknod net/tun c 10 200
 chmod 0666 net/tun
+TUN=$(cat /dev/net/tun 2>&1)
+if [[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]]; then 
+green "添加TUN支持失败，建议与VPS厂商沟通或后台设置开启" && exit 0
+else
+green "恭喜，添加TUN支持成功，现执行重启VPS自动开启TUN守护功能"
+cat>/root/tun.sh<<-\EOF
+#!/bin/bash
+cd /dev
+mkdir net
+mknod net/tun c 10 200
+chmod 0666 net/tun
+EOF
+chmod +x /root/tun.sh
+grep -qE "^ *@reboot root bash /root/tun.sh >/dev/null 2>&1" /etc/crontab || echo "@reboot root bash /root/tun.sh >/dev/null 2>&1" >> /etc/crontab
+green "重启VPS自动开启TUN守护功能已启动"
+fi
 fi
 fi
 [[ $(type -P yum) ]] && yumapt='yum -y' || yumapt='apt -y'
