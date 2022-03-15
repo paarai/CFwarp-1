@@ -633,7 +633,7 @@ esac
 }
 
 REnfwarp(){
-ab="1.在线前台临时刷奈飞NF\n2.离线后台+重启VPS自动刷奈飞NF及WARP区域\n3.screen管理设置\n0.返回上一层\n 请选择："
+ab="1.在线前台临时刷奈飞NF\n2.离线后台+重启VPS后screen后台自动刷奈飞NF、WARP区域、Wgcf-IPV4的IP段三大功能\n3.screen管理设置\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in
 1 ) ReIP;;
