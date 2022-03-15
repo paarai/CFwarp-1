@@ -397,6 +397,7 @@ systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 ShowWGCF && WGCFmenu && back
 }
 
@@ -445,6 +446,7 @@ warp-cli --accept-tos enable-always-on >/dev/null 2>&1
 sleep 2 && ShowSOCKS5
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 S5menu && back
 }
 
@@ -574,11 +576,11 @@ esac
 }
 
 Rewarp(){
-ab="1.启用：离线后台+重启VPS自动刷NF功能\n2.启用：离线后台+重启VPS自动刷区域IP功能\n3.关闭：重启VPS自动刷奈飞IP或区域IP功能\n（离线Screen窗口请在Screen管理设置中删除）\n0.返回上一层\n 请选择："
+ab="1.启用：离线后台+重启VPS后screen后台自动刷NF功能\n2.启用：离线后台+重启VPS后screen后台自动刷区域IP功能\n3.启用：离线后台+重启VPS后screen后台自动刷Wgcf-IPV4的IP段功能\n4.关闭：重启VPS自动刷奈飞IP或区域IP功能\n（离线Screen窗口请在Screen管理设置中删除）\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in  
 1 )
-[[ -e /root/WARP-CR.sh ]] && yellow "经检测，你正在使用自动刷区域IP功能，请关闭后再启动刷NF功能" && REnfwarp
+[[ -e /root/WARP-CR.sh || -e /root/WARP-CP.sh ]] && yellow "经检测，你正在使用其他刷IP功能，请关闭后再执行" && REnfwarp
 wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd/$gj/g" check.sh || (sed -i "s/dd/\$region/g" check.sh && green "当前设置WARP默认随机分配的国家区域: $g4 ")
@@ -589,10 +591,10 @@ readp "非奈飞IP或者非指定IP区域时，继续检测间隔时间（回车
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 green "设置screen窗口名称'aw'，离线后台自动刷奈飞IP" && sleep 2
 grep -qE "^ *@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" >> /etc/crontab
-green "添加VPS重启后自动刷奈飞IP功能，重启VPS后自动生效（目前不支持纯IPV6的VPS）"
+green "添加VPS重启后screen后台自动刷奈飞IP功能，重启VPS后自动生效（目前不支持纯IPV6的VPS）"
 back;;
 2 )
-[[ -e /root/check.sh ]] && yellow "经检测，你正在使用自动刷NF功能，请关闭后再启动刷区域IP功能" && REnfwarp
+[[ -e /root/WARP-CP.sh || -e /root/check.sh ]] && yellow "经检测，你正在使用其他刷IP功能，请关闭后再执行" && REnfwarp
 wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-CR/main/WARP-CR.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd4/$gj/g" WARP-CR.sh || (sed -i "s/dd4/\$eg4/g" WARP-CR.sh && green "IPV4当前设置WARP默认分配的国家区域: $g4 ")
@@ -605,9 +607,26 @@ readp "非指定IP区域时，重新检测间隔时间（回车默认30秒）,�
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 green "设置screen窗口名称'cr'，离线后台自动刷WARP指定区域IP" && sleep 2
 grep -qE "^ *@reboot root screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" >> /etc/crontab
-green "添加VPS重启后自动刷IP功能，重启VPS后自动生效（目前不支持纯IPV6的VPS）";;
+green "添加VPS重启后screen后台自动刷IP功能，重启VPS后自动生效（目前不支持纯IPV6的VPS）"
+back;;
 3 )
-sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1
+[[ -e /root/WARP-CR.sh || -e /root/check.sh ]] && yellow "经检测，你正在使用其他刷IP功能，请关闭后再执行" && REnfwarp
+wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
+[[ ! $wgcfv4 =~ on|plus ]] && yellow "当前Wgcf-IPV4未开启" && bash CFwarp.sh
+wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-CP/main/WARP-CP.sh
+readp "输入WARP-IPV4的第二段.第三段的IP段（例：8.45.46.123 ， 输入 45.46 ）:" gj
+[[ -n $gj ]] && sed -i "s/ipd/$gj/g" WARP-CP.sh || (sed -i "s/ipd/\$v4d/g" WARP-CP.sh && green "未输入，使用当前WARP默认IP段$(curl -s4m3 https://ip.gs -k | awk -F '.' '{print $2"."$3}')")
+readp "已刷到设置的IP段时，重新检测间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
+[[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-CP.sh || green "默认间隔60秒"
+readp "未刷到设置的IP段时，继续检测间隔时间（回车默认20秒）,请输入间隔时间（例：50秒，输入50）:" goon
+[[ -n $goon ]] && sed -i "s/20s/${goon}s/g;s/20秒/${goon}秒/g" WARP-CP.sh || green "默认间隔20秒"
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
+green "设置screen窗口名称'cp'，离线后台自动WARP的IP段" && sleep 2
+grep -qE "^ *@reboot root screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh' >/dev/null 2>&1" >> /etc/crontab
+green "添加VPS重启后screen后台自动刷WARP的IP段功能，重启VPS后自动生效（目前不支持纯IPV6的VPS）"
+back;;
+4 )
+sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1
 green "卸载完成";;
 0 ) REnfwarp
 esac
@@ -637,6 +656,7 @@ wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 checkwgcf
 [[ $wgcfv6 = off || $wgcfv4 = off ]] && green "关闭WARP(+)成功" || red "关闭WARP(+)失败"
 elif [[ $wgcfv6 = off || $wgcfv4 = off ]]; then
@@ -645,6 +665,7 @@ systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 fi
 ShowWGCF && WGCFmenu && back;;
 2 )
@@ -654,12 +675,14 @@ yellow "当前WARP(+)：已开启状态，现执行：临时关闭……" && sle
 warp-cli --accept-tos disable-always-on >/dev/null 2>&1
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 [[ $(warp-cli --accept-tos status) =~ 'Disconnected' ]] && green "临时关闭WARP(+)成功" || red "临时关闭WARP(+)失败"
 elif [[ $(warp-cli --accept-tos status) =~ 'Disconnected' ]]; then
 yellow "当前WARP(+)：临时关闭状态，现执行：恢复运行……" && sleep 1
 warp-cli --accept-tos enable-always-on >/dev/null 2>&1
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 fi
 ShowSOCKS5 && S5menu && back;;
 0 ) WARPOC
@@ -684,9 +707,9 @@ wj="rm -rf /usr/local/bin/wgcf /etc/wireguard/wgcf.conf /etc/wireguard/wgcf-prof
 ab="1.仅卸载Wgcf-WARP(+)\n2.仅卸载Socks5-WARP(+)\n3.彻底卸载并清除所有WARP及脚本文件\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in     
-1 ) [[ $(type -P wg-quick) ]] && (cwg ; $wj ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; green "Wgcf-WARP(+)卸载完成" && ShowWGCF && WGCFmenu && back) || (yellow "并未安装Wgcf-WARP(+)，无法卸载" && bash CFwarp.sh);;
+1 ) [[ $(type -P wg-quick) ]] && (cwg ; $wj ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1 ; green "Wgcf-WARP(+)卸载完成" && ShowWGCF && WGCFmenu && back) || (yellow "并未安装Wgcf-WARP(+)，无法卸载" && bash CFwarp.sh);;
 2 ) [[ $(type -P warp-cli) ]] && (cso ; green "Socks5-WARP(+)卸载完成" && ShowSOCKS5 && S5menu && back) || (yellow "并未安装Socks5-WARP(+)，无法卸载" && bash CFwarp.sh);;
-3 ) [[ ! $(type -P wg-quick) && ! $(type -P warp-cli) ]] && (red "并没有安装任何的WARP功能，无法卸载" && CFwarp.sh) || (cwg ; cso ; $wj ; rm -rf CFwarp.sh check.sh WARP-CR.sh screen.sh ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; green "WARP已全部卸载完成" && ShowSOCKS5 && ShowWGCF && WGCFmenu && S5menu && exit);;
+3 ) [[ ! $(type -P wg-quick) && ! $(type -P warp-cli) ]] && (red "并没有安装任何的WARP功能，无法卸载" && CFwarp.sh) || (cwg ; cso ; $wj ; rm -rf CFwarp.sh check.sh WARP-CR.sh WARP-CP.sh screen.sh ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1 ; green "WARP已全部卸载完成" && ShowSOCKS5 && ShowWGCF && WGCFmenu && S5menu && exit);;
 0 ) WARPOC
 esac
 }
