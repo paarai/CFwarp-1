@@ -274,6 +274,9 @@ checkwgcf
 done
 checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
+yellow "还原VPS：卸载Wgcf-WARP组件……"
+cwg
+green "卸载Wgcf-WARP组件完成"
 green "失败建议如下："
 [[ $release = Centos && ${vsid} -lt 7 ]] && yellow "当前系统版本号：Centos $vsid \n建议使用 Centos 7 以上系统 " 
 [[ $release = Ubuntu && ${vsid} -lt 18 ]] && yellow "当前系统版本号：Ubuntu $vsid \n建议使用 Ubuntu 18 以上系统 " 
@@ -282,9 +285,6 @@ yellow "1、强烈建议使用官方源升级系统及内核加速！如已使�
 yellow "2、部分VPS系统极度精简，相关依赖需自行安装后再尝试"
 yellow "3、中国的VPS可能不支持安装WARP"
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
-yellow "还原VPS：卸载Wgcf-WARP组件……"
-cwg
-green "卸载Wgcf-WARP组件完成"
 exit 0
 fi
 }
