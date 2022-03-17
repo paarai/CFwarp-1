@@ -274,7 +274,7 @@ checkwgcf
 done
 checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
-yellow "还原VPS：卸载Wgcf-WARP组件……"
+yellow "安装WARP失败，还原VPS，卸载Wgcf-WARP组件中……"
 cwg
 green "卸载Wgcf-WARP组件完成"
 green "失败建议如下："
