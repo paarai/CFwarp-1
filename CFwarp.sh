@@ -84,15 +84,15 @@ fi
 [[ ! $(type -P python3) ]] && yellow "检测到python3未安装，升级安装中" && $yumapt install python3
 [[ ! $(type -P screen) ]] && yellow "检测到screen未安装，升级安装中" && $yumapt install screen
  
-ud4='sed -i "5 s/^/PostUp = ip -4 rule add from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "6 s/^/PostDown = ip -4 rule delete from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf'
-ud6='sed -i "7 s/^/PostUp = ip -6 rule add from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "8 s/^/PostDown = ip -6 rule delete from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf'
-ud4ud6='sed -i "5 s/^/PostUp = ip -4 rule add from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "6 s/^/PostDown = ip -4 rule delete from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "7 s/^/PostUp = ip -6 rule add from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf && sed -i "8 s/^/PostDown = ip -6 rule delete from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" wgcf-profile.conf'
-c1="sed -i '/0\.0\.0\.0\/0/d' wgcf-profile.conf"
-c2="sed -i '/\:\:\/0/d' wgcf-profile.conf"
-c3="sed -i 's/engage.cloudflareclient.com/162.159.193.10/g' wgcf-profile.conf"
-c4="sed -i 's/engage.cloudflareclient.com/2606:4700:d0::a29f:c001/g' wgcf-profile.conf"
-c5="sed -i 's/1.1.1.1/8.8.8.8,2001:4860:4860::8888/g' wgcf-profile.conf"
-c6="sed -i 's/1.1.1.1/2001:4860:4860::8888,8.8.8.8/g' wgcf-profile.conf"
+ud4='sed -i "5 s/^/PostUp = ip -4 rule add from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf && sed -i "6 s/^/PostDown = ip -4 rule delete from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf'
+ud6='sed -i "7 s/^/PostUp = ip -6 rule add from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf && sed -i "8 s/^/PostDown = ip -6 rule delete from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf'
+ud4ud6='sed -i "5 s/^/PostUp = ip -4 rule add from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf && sed -i "6 s/^/PostDown = ip -4 rule delete from $(ip route get 162.159.192.1 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf && sed -i "7 s/^/PostUp = ip -6 rule add from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf && sed -i "8 s/^/PostDown = ip -6 rule delete from $(ip route get 2606:4700:d0::a29f:c001 | grep -oP '"'src \K\S+') lookup main\n/"'" /etc/wireguard/wgcf.conf'
+c1="sed -i '/0\.0\.0\.0\/0/d' /etc/wireguard/wgcf.conf"
+c2="sed -i '/\:\:\/0/d' /etc/wireguard/wgcf.conf"
+c3="sed -i 's/engage.cloudflareclient.com/162.159.193.10/g' /etc/wireguard/wgcf.conf"
+c4="sed -i 's/engage.cloudflareclient.com/2606:4700:d0::a29f:c001/g' /etc/wireguard/wgcf.conf"
+c5="sed -i 's/1.1.1.1/8.8.8.8,2001:4860:4860::8888/g' /etc/wireguard/wgcf.conf"
+c6="sed -i 's/1.1.1.1/2001:4860:4860::8888,8.8.8.8/g' /etc/wireguard/wgcf.conf"
 yellow " 请稍等3秒……正在扫描vps类型及参数中……"
 
 ShowWGCF(){
@@ -179,54 +179,121 @@ v6=$(curl -s6m6 https://ip.gs -k)
 v4=$(curl -s4m6 https://ip.gs -k)
 }
 
+ABC(){
+echo $ABC1 | sh
+echo $ABC2 | sh
+echo $ABC3 | sh
+echo $ABC4 | sh
+}
+conf(){
+rm -rf /etc/wireguard/wgcf.conf
+cp -f /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf.conf >/dev/null 2>&1
+}
 WGCFv4(){
-systemctl stop wg-quick@wgcf >/dev/null 2>&1
+checkwgcf
+if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
-green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV4单栈"
+green "经检测，当前原生v4+v6双栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV4单栈模式"
 ABC1=$ud4 && ABC2=$c2 && ABC3=$c5 && WGCFins
 fi
 if [[ -n $v6 && -z $v4 ]]; then
-green "vps真IP特征:原生v6单栈vps\n现添加Wgcf-WARP-IPV4单栈"
+green "经检测，当前原生v6单栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV4单栈模式"
 ABC1=$c2 && ABC2=$c4 && ABC3=$c5 && WGCFins
 fi
 if [[ -z $v6 && -n $v4 ]]; then
-green "vps真IP特征:原生v4单栈vps\n现添加Wgcf-WARP-IPV4单栈"
+green "经检测，当前原生v4单栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV4单栈模式"
 STOPwgcf ; ABC1=$ud4 && ABC2=$c2 && ABC3=$c3 && ABC4=$c5 && WGCFins
+fi
+else
+systemctl stop wg-quick@wgcf >/dev/null 2>&1
+v4v6
+if [[ -n $v4 && -n $v6 ]]; then
+green "经检测，当前原生v4+v6双栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4单栈模式"
+conf && ABC1=$ud4 && ABC2=$c2 && ABC3=$c5 && ABC
+fi
+if [[ -n $v6 && -z $v4 ]]; then
+green "经检测，当前原生v6单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4单栈模式"
+conf && ABC1=$c2 && ABC2=$c4 && ABC3=$c5 && ABC
+fi
+if [[ -z $v6 && -n $v4 ]]; then
+green "经检测，当前原生v4单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4单栈模式"
+STOPwgcf ; conf && ABC1=$ud4 && ABC2=$c2 && ABC3=$c3 && ABC4=$c5 && ABC
+fi
+CheckWARP
+ShowWGCF && WGCFmenu && back
 fi
 }
 
 WGCFv6(){
-systemctl stop wg-quick@wgcf >/dev/null 2>&1
+checkwgcf
+if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
-green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV6单栈"
+green "经检测，当前原生v4+v6双栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV6单栈模式"
 ABC1=$ud6 && ABC2=$c1 && ABC3=$c5 && WGCFins
 fi
 if [[ -n $v6 && -z $v4 ]]; then
-green "vps真IP特征:原生v6单栈vps\n现添加Wgcf-WARP-IPV6单栈 (无IPV4！！！)"
+green "经检测，当前原生v6单栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV6单栈模式(无IPV4！！！)"
 ABC1=$ud6 && ABC2=$c1 && ABC3=$c4 && ABC4=$c6 && WGCFins
 fi
 if [[ -z $v6 && -n $v4 ]]; then
-green "vps真IP特征:原生v4单栈vps\n现添加Wgcf-WARP-IPV6单栈"
+green "经检测，当前原生v4单栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV6单栈模式"
 ABC1=$c1 && ABC2=$c3 && ABC3=$c5 && WGCFins
+fi
+else
+systemctl stop wg-quick@wgcf >/dev/null 2>&1
+v4v6
+if [[ -n $v4 && -n $v6 ]]; then
+green "经检测，当前原生v4+v6双栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV6单栈模式"
+conf && ABC1=$ud6 && ABC2=$c1 && ABC3=$c5 && ABC
+fi
+if [[ -n $v6 && -z $v4 ]]; then
+green "经检测，当前原生v6单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV6单栈模式(无IPV4！！！)"
+conf && ABC1=$ud6 && ABC2=$c1 && ABC3=$c4 && ABC4=$c6 && ABC
+fi
+if [[ -z $v6 && -n $v4 ]]; then
+green "经检测，当前原生v4单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV6单栈模式"
+conf && ABC1=$c1 && ABC2=$c3 && ABC3=$c5 && ABC
+fi
+CheckWARP
+ShowWGCF && WGCFmenu && back
 fi
 }
 
 WGCFv4v6(){
-systemctl stop wg-quick@wgcf >/dev/null 2>&1
+checkwgcf
+if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
-green "vps真IP特征:原生v4+v6双栈vps\n现添加Wgcf-WARP-IPV4+IPV6双栈"
+green "经检测，当前原生v4+v6双栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV4+IPV6双栈模式"
 STOPwgcf ; ABC1=$ud4ud6 && ABC2=$c5 && WGCFins
 fi
 if [[ -n $v6 && -z $v4 ]]; then
-green "vps真IP特征:原生v6单栈vps\n现添加Wgcf-WARP-IPV4+IPV6双栈"
+green "经检测，当前原生v6单栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV4+IPV6双栈模式"
 STOPwgcf ; ABC1=$ud6 && ABC2=$c4 && ABC3=$c5 && WGCFins
 fi
 if [[ -z $v6 && -n $v4 ]]; then
-green "vps真IP特征:原生v4单栈vps\n现添加Wgcf-WARP-IPV4+IPV6双栈"
+green "经检测，当前原生v4单栈vps首次安装Wgcf-WARP\n现添加Wgcf-WARP-IPV4+IPV6双栈模式"
 STOPwgcf ; ABC1=$ud4 && ABC2=$c3 && ABC3=$c5 && WGCFins
+fi
+else
+systemctl stop wg-quick@wgcf >/dev/null 2>&1
+v4v6
+if [[ -n $v4 && -n $v6 ]]; then
+green "经检测，当前原生v4+v6双栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4+IPV6双栈模式"
+STOPwgcf ; conf && ABC1=$ud4ud6 && ABC2=$c5 && && ABC
+fi
+if [[ -n $v6 && -z $v4 ]]; then
+green "经检测，当前原生v6单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4+IPV6双栈模式"
+STOPwgcf ; conf && ABC1=$ud6 && ABC2=$c4 && ABC3=$c5 && ABC
+fi
+if [[ -z $v6 && -n $v4 ]]; then
+green "经检测，当前原生v4单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4+IPV6双栈模式"
+STOPwgcf ; conf && ABC1=$ud4 && ABC2=$c3 && ABC3=$c5 && ABC
+fi
+CheckWARP
+ShowWGCF && WGCFmenu && back
 fi
 }
 
@@ -283,6 +350,7 @@ green "失败建议如下："
 [[ $release = Debian && ${vsid} -lt 10 ]] && yellow "当前系统版本号：Debian $vsid \n建议使用 Debian 10 以上系统 "
 yellow "1、强烈建议使用官方源升级系统及内核加速！如已使用第三方源及内核加速，请务必更新到最新版，或重置为官方源"
 yellow "2、部分VPS系统极度精简，相关依赖需自行安装后再尝试"
+yellow "3、查看https://www.cloudflarestatus.com/,你当前VPS就近区域可能处于黄色的【Re-routed】状态"
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
 exit 0
 fi
@@ -385,11 +453,11 @@ done
 MTU=$((${MTUy} - 80))
 green "MTU最佳网络吞吐量值= $MTU 已设置完毕"
 sed -i "s/MTU.*/MTU = $MTU/g" wgcf-profile.conf
+cp -f wgcf-profile.conf /etc/wireguard/wgcf.conf >/dev/null 2>&1
 echo $ABC1 | sh
 echo $ABC2 | sh
 echo $ABC3 | sh
 echo $ABC4 | sh
-cp -f wgcf-profile.conf /etc/wireguard/wgcf.conf >/dev/null 2>&1
 mv -f wgcf-profile.conf /etc/wireguard >/dev/null 2>&1
 mv -f wgcf-account.toml /etc/wireguard >/dev/null 2>&1
 systemctl enable wg-quick@wgcf >/dev/null 2>&1
