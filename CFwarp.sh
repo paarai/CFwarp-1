@@ -282,7 +282,7 @@ systemctl stop wg-quick@wgcf >/dev/null 2>&1
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
 green "经检测，当前原生v4+v6双栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4+IPV6双栈模式"
-STOPwgcf ; conf && ABC1=$ud4ud6 && ABC2=$c5 && && ABC
+STOPwgcf ; conf && ABC1=$ud4ud6 && ABC2=$c5 && ABC
 fi
 if [[ -n $v6 && -z $v4 ]]; then
 green "经检测，当前原生v6单栈vps已安装Wgcf-WARP\n现快速切换Wgcf-WARP-IPV4+IPV6双栈模式"
