@@ -15,6 +15,7 @@ readtp(){ read -t5 -n26 -p "$(yellow "$1")" $2;}
 readp(){ read -p "$(yellow "$1")" $2;}
 
 [[ $EUID -ne 0 ]] && yellow "请以root模式运行脚本" && exit 1
+yellow " 请稍等3秒……正在扫描vps类型及参数中……"
 if [[ -f /etc/redhat-release ]]; then
 release="Centos"
 elif cat /etc/issue | grep -q -E -i "debian"; then
@@ -55,7 +56,7 @@ fi
 if [[ $vi =~ lxc|openvz ]]; then
 TUN=$(cat /dev/net/tun 2>&1)
 if [[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]]; then 
-red "检测到未开启TUN，现尝试添加TUN支持" && sleep 2
+red "检测到未开启TUN，现尝试添加TUN支持" && sleep 4
 cd /dev
 mkdir net
 mknod net/tun c 10 200
@@ -64,7 +65,7 @@ TUN=$(cat /dev/net/tun 2>&1)
 if [[ ${TUN} != "cat: /dev/net/tun: File descriptor in bad state" ]]; then 
 green "添加TUN支持失败，建议与VPS厂商沟通或后台设置开启" && exit 0
 else
-green "恭喜，添加TUN支持成功，现执行重启VPS自动开启TUN守护功能" && sleep 2
+green "恭喜，添加TUN支持成功，现添加防止重启VPS后TUN失效的TUN守护功能" && sleep 4
 cat>/root/tun.sh<<-\EOF
 #!/bin/bash
 cd /dev
@@ -74,7 +75,7 @@ chmod 0666 net/tun
 EOF
 chmod +x /root/tun.sh
 grep -qE "^ *@reboot root bash /root/tun.sh >/dev/null 2>&1" /etc/crontab || echo "@reboot root bash /root/tun.sh >/dev/null 2>&1" >> /etc/crontab
-green "重启VPS自动开启TUN守护功能已启动"
+green "TUN守护功能已启动"
 fi
 fi
 fi
@@ -93,7 +94,6 @@ c3="sed -i 's/engage.cloudflareclient.com/162.159.193.10/g' /etc/wireguard/wgcf.
 c4="sed -i 's/engage.cloudflareclient.com/2606:4700:d0::a29f:c001/g' /etc/wireguard/wgcf.conf"
 c5="sed -i 's/1.1.1.1/8.8.8.8,2001:4860:4860::8888/g' /etc/wireguard/wgcf.conf"
 c6="sed -i 's/1.1.1.1/2001:4860:4860::8888,8.8.8.8/g' /etc/wireguard/wgcf.conf"
-yellow " 请稍等3秒……正在扫描vps类型及参数中……"
 
 ShowWGCF(){
 v6=$(curl -s6m6 https://ip.gs -k)
