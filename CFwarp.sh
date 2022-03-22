@@ -728,7 +728,7 @@ checkwgcf
 if [[ $wgcfv4 =~ on|plus || $wgcfv6 =~ on|plus ]]; then
 yellow "当前Wgcf-WARP(+)状态：已运行中，现执行:临时关闭……"
 rm -rf WARP-up.sh
-sed -i '/WARP-up.sh/d' /etc/crontab >/dev/null 2>&1
+sed -i '/WARP-up.sh/d' /etc/crontab
 wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
 checkwgcf
