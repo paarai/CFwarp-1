@@ -700,7 +700,8 @@ grep -qE "^ *@reboot root screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh' >
 green "添加VPS重启后screen后台自动刷WARP的IP段功能，重启VPS后自动生效"
 back;;
 4 )
-sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1
+sed -i '/check.sh/d' /etc/crontab ; sed -i '/WARP-CR.sh/d' /etc/crontab ; sed -i '/WARP-CP.sh/d' /etc/crontab
+rm -rf check.sh WARP-CR.sh WARP-CP.sh
 green "卸载完成";;
 0 ) REnfwarp
 esac
@@ -776,7 +777,7 @@ warp-cli --accept-tos delete >/dev/null 2>&1
 WARPun(){
 wj="rm -rf /usr/local/bin/wgcf /etc/wireguard/wgcf.conf /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf-account.toml /etc/wireguard/wgcf+p.log /etc/wireguard/ID /usr/bin/wireguard-go wgcf-account.toml wgcf-profile.conf"
 cron1="rm -rf check.sh WARP-CR.sh WARP-CP.sh WARP-UP.sh"
-cron2="sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-UP.sh/d' /etc/crontab >/dev/null 2>&1"
+cron2="sed -i '/check.sh/d' /etc/crontab ; sed -i '/WARP-CR.sh/d' /etc/crontab ; sed -i '/WARP-CP.sh/d' /etc/crontab ; sed -i '/WARP-UP.sh/d' /etc/crontab"
 ab="1.卸载Wgcf-WARP(+)\n2.卸载Socks5-WARP(+)\n3.彻底卸载并清除WARP脚本及相关进程文件\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in     
