@@ -362,7 +362,7 @@ screen -d >/dev/null 2>&1
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 [[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 if [[ -e /root/WARP-UP.sh ]]; then
-screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/check.sh'
+screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh'
 else
 readtp "是否安装WARP在线监测守护进程（Y/y）？(5秒后默认为N，不安装):" warpup
 echo -e "\n"
