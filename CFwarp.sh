@@ -357,6 +357,7 @@ yellow "3、查看https://www.cloudflarestatus.com/,你当前VPS就近区域可�
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
 exit 0
 else
+screen -d >/dev/null 2>&1
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 [[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
@@ -651,6 +652,7 @@ readp "$ab" cd
 case "$cd" in  
 1 )
 [[ -e /root/WARP-CR.sh || -e /root/WARP-CP.sh ]] && yellow "经检测，你正在使用其他刷IP功能，请关闭后再执行" && REnfwarp
+screen -d >/dev/null 2>&1
 wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/Netflix-WARP/main/check.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd/$gj/g" check.sh || (sed -i "s/dd/\$region/g" check.sh && green "当前设置WARP默认随机分配的国家区域: $g4 ")
@@ -665,6 +667,7 @@ green "添加VPS重启后screen后台自动刷奈飞IP功能，重启VPS后自�
 back;;
 2 )
 [[ -e /root/WARP-CP.sh || -e /root/check.sh ]] && yellow "经检测，你正在使用其他刷IP功能，请关闭后再执行" && REnfwarp
+screen -d >/dev/null 2>&1
 wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-CR/main/WARP-CR.sh
 readp "输入国家区域简称（例：新加坡，输入大写SG;美国，输入大写US）:" gj
 [[ -n $gj ]] && sed -i "s/dd4/$gj/g" WARP-CR.sh || (sed -i "s/dd4/\$eg4/g" WARP-CR.sh && green "IPV4当前设置WARP默认分配的国家区域: $g4 ")
@@ -683,6 +686,7 @@ back;;
 [[ -e /root/WARP-CR.sh || -e /root/check.sh ]] && yellow "经检测，你正在使用其他刷IP功能，请关闭后再执行" && REnfwarp
 wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 [[ ! $wgcfv4 =~ on|plus ]] && yellow "当前Wgcf-IPV4未开启" && bash CFwarp.sh
+screen -d >/dev/null 2>&1
 wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-CP/main/WARP-CP.sh
 readp "输入WARP-IPV4的第二段.第三段的IP段（例：8.45.46.123 ， 输入 45.46 ）:" gj
 [[ -n $gj ]] && sed -i "s/ipd/$gj/g" WARP-CP.sh || (sed -i "s/ipd/\$v4d/g" WARP-CP.sh && green "未输入，使用当前WARP默认IP段$(curl -s4m3 https://ip.gs -k | awk -F '.' '{print $2"."$3}')")
