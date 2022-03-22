@@ -763,6 +763,7 @@ cwg(){
 wg-quick down wgcf >/dev/null 2>&1
 systemctl disable wg-quick@wgcf >/dev/null 2>&1
 $yumapt autoremove wireguard-tools
+rm -rf WARP-UP.sh ; sed -i '/WARP-UP.sh/d' /etc/crontab >/dev/null 2>&1 
 dig9
 }
 cso(){
@@ -774,12 +775,14 @@ warp-cli --accept-tos delete >/dev/null 2>&1
 
 WARPun(){
 wj="rm -rf /usr/local/bin/wgcf /etc/wireguard/wgcf.conf /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf-account.toml /etc/wireguard/wgcf+p.log /etc/wireguard/ID /usr/bin/wireguard-go wgcf-account.toml wgcf-profile.conf"
-ab="1.仅卸载Wgcf-WARP(+)\n2.仅卸载Socks5-WARP(+)\n3.彻底卸载并清除所有WARP及脚本文件\n0.返回上一层\n 请选择："
+cron1="rm -rf check.sh WARP-CR.sh WARP-CP.sh WARP-UP.sh"
+cron2="sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-UP.sh/d' /etc/crontab >/dev/null 2>&1"
+ab="1.卸载Wgcf-WARP(+)\n2.卸载Socks5-WARP(+)\n3.彻底卸载并清除WARP脚本及相关进程文件\n0.返回上一层\n 请选择："
 readp "$ab" cd
 case "$cd" in     
-1 ) [[ $(type -P wg-quick) ]] && (cwg ; $wj ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1 ; green "Wgcf-WARP(+)卸载完成" && ShowWGCF && WGCFmenu && back) || (yellow "并未安装Wgcf-WARP(+)，无法卸载" && bash CFwarp.sh);;
+1 ) [[ $(type -P wg-quick) ]] && (cwg ; $wj ; green "Wgcf-WARP(+)卸载完成" && ShowWGCF && WGCFmenu && back) || (yellow "并未安装Wgcf-WARP(+)，无法卸载" && bash CFwarp.sh);;
 2 ) [[ $(type -P warp-cli) ]] && (cso ; green "Socks5-WARP(+)卸载完成" && ShowSOCKS5 && S5menu && back) || (yellow "并未安装Socks5-WARP(+)，无法卸载" && bash CFwarp.sh);;
-3 ) [[ ! $(type -P wg-quick) && ! $(type -P warp-cli) ]] && (red "并没有安装任何的WARP功能，无法卸载" && CFwarp.sh) || (cwg ; cso ; $wj ; rm -rf CFwarp.sh check.sh WARP-CR.sh WARP-CP.sh screen.sh ; sed -i '/check.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CR.sh/d' /etc/crontab >/dev/null 2>&1 ; sed -i '/WARP-CP.sh/d' /etc/crontab >/dev/null 2>&1 ; green "WARP已全部卸载完成" && ShowSOCKS5 && ShowWGCF && WGCFmenu && S5menu && exit);;
+3 ) [[ ! $(type -P wg-quick) && ! $(type -P warp-cli) ]] && (red "并没有安装任何的WARP功能，无法卸载" && CFwarp.sh) || (cwg ; cso ; $wj ; $cron1 ; $cron2 ; rm -rf CFwarp.sh screen.sh ; green "WARP已全部卸载完成" && ShowSOCKS5 && ShowWGCF && WGCFmenu && S5menu && exit);;
 0 ) WARPOC
 esac
 }
