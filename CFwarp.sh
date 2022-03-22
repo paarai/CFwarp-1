@@ -357,11 +357,11 @@ yellow "3、查看https://www.cloudflarestatus.com/,你当前VPS就近区域可�
 yellow "有疑问请向作者反馈 https://github.com/kkkyg/CFwarp/issues"
 exit 0
 else
-[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
-[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
-[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
+[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
+[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 if [[ -e /root/WARP-UP.sh ]]; then
-screen -S up -X quit ; screen -dmS up bash -c '/bin/bash /root/check.sh'
+screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/check.sh'
 else
 readtp "是否安装WARP在线监测守护进程（Y/y）？(5秒后默认为N，不安装):" warpup
 echo -e "\n"
@@ -371,9 +371,9 @@ readp "WARP状态为运行时，重新检测WARP状态间隔时间（回车默�
 [[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-UP.sh || green "默认间隔60秒"
 readp "WARP状态为中断时(连续5次失败自动关闭WARP)，继续检测WARP状态间隔时间（回车默认50秒）,请输入间隔时间（例：50秒，输入50）:" goon
 [[ -n $goon ]] && sed -i "s/50s/${goon}s/g;s/50秒/${goon}秒/g" WARP-UP.sh || green "默认间隔50秒"
-[[ -e /root/WARP-UP.sh ]] && screen -S up -X quit ; screen -dmS up bash -c '/bin/bash /root/WARP-UP.sh'
+[[ -e /root/WARP-UP.sh ]] && screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh'
 green "设置screen窗口名称'up'，离线后台WARP在线守护进程" && sleep 2
-grep -qE "^ *@reboot root screen -dmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" >> /etc/crontab
+grep -qE "^ *@reboot root screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" >> /etc/crontab
 green "添加WARP在线守护进程功能，重启VPS也会自动生效"
 fi
 fi
@@ -514,9 +514,9 @@ warp-cli --accept-tos register >/dev/null 2>&1 && sleep 2
 warp-cli --accept-tos set-mode proxy >/dev/null 2>&1
 warp-cli --accept-tos enable-always-on >/dev/null 2>&1
 sleep 2 && ShowSOCKS5
-[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
-[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
-[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
+[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
+[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 S5menu && back
 }
 
@@ -592,7 +592,7 @@ readp "客户端配置ID(36个字符)：" ID
 sed -i "27 s/input/'$ID'/" wp.py
 readp "设置screen窗口名称，回车默认名称为'wp'：" wpp
 [[ -z $wpp ]] && wpp='wp'
-screen -dmS $wpp bash -c '/usr/bin/python3 /root/wp.py' && back;;
+screen -UdmS $wpp bash -c '/usr/bin/python3 /root/wp.py' && back;;
 5 ) wget -N https://raw.githubusercontents.com/kkkyg/screen-script/main/screen.sh && bash screen.sh && back;;
 0 ) bash CFwarp.sh
 esac
@@ -658,9 +658,9 @@ readp "已是奈飞IP或者指定IP区域时，重新检测间隔时间（回车
 [[ -n $stop ]] && sed -i "s/45s/${stop}s/g;s/45秒/${stop}秒/g" check.sh || green "默认间隔45秒"
 readp "非奈飞IP或者非指定IP区域时，继续检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
 [[ -n $goon ]] && sed -i "s/30s/${goon}s/g;s/30秒/${goon}秒/g" check.sh || green "默认间隔30秒"
-[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
+[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
 green "设置screen窗口名称'aw'，离线后台自动刷奈飞IP" && sleep 2
-grep -qE "^ *@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" >> /etc/crontab
+grep -qE "^ *@reboot root screen -UdmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -UdmS aw bash -c '/bin/bash /root/check.sh' >/dev/null 2>&1" >> /etc/crontab
 green "添加VPS重启后screen后台自动刷奈飞IP功能，重启VPS后自动生效"
 back;;
 2 )
@@ -674,9 +674,9 @@ readp "已是指定IP区域时，重新检测间隔时间（回车默认60秒）
 [[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-CR.sh || green "默认间隔60秒"
 readp "非指定IP区域时，重新检测间隔时间（回车默认30秒）,请输入间隔时间（例：50秒，输入50）:" goon
 [[ -n $goon ]] && sed -i "s/30s/${goon}s/g;s/30秒/${goon}秒/g" WARP-CR.sh || green "默认间隔30秒"
-[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 green "设置screen窗口名称'cr'，离线后台自动刷WARP指定区域IP" && sleep 2
-grep -qE "^ *@reboot root screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" >> /etc/crontab
+grep -qE "^ *@reboot root screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh' >/dev/null 2>&1" >> /etc/crontab
 green "添加VPS重启后screen后台自动刷IP功能，重启VPS后自动生效"
 back;;
 3 )
@@ -690,9 +690,9 @@ readp "已刷到设置的IP段时，重新检测间隔时间（回车默认60秒
 [[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-CP.sh || green "默认间隔60秒"
 readp "未刷到设置的IP段时，继续检测间隔时间（回车默认20秒）,请输入间隔时间（例：50秒，输入50）:" goon
 [[ -n $goon ]] && sed -i "s/20s/${goon}s/g;s/20秒/${goon}秒/g" WARP-CP.sh || green "默认间隔20秒"
-[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 green "设置screen窗口名称'cp'，离线后台自动WARP的IP段" && sleep 2
-grep -qE "^ *@reboot root screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh' >/dev/null 2>&1" >> /etc/crontab
+grep -qE "^ *@reboot root screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh' >/dev/null 2>&1" >> /etc/crontab
 green "添加VPS重启后screen后台自动刷WARP的IP段功能，重启VPS后自动生效"
 back;;
 4 )
@@ -739,16 +739,16 @@ ShowWGCF && WGCFmenu && back;;
 if [[ $(warp-cli --accept-tos status) =~ 'Connected' ]]; then
 yellow "当前Socks5-WARP(+)状态：已运行中，现执行：临时关闭……" && sleep 1
 warp-cli --accept-tos disable-always-on >/dev/null 2>&1
-[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
-[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
-[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
+[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
+[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 [[ $(warp-cli --accept-tos status) =~ 'Disconnected' ]] && green "临时关闭WARP(+)成功" || red "临时关闭WARP(+)失败"
 elif [[ $(warp-cli --accept-tos status) =~ 'Disconnected' ]]; then
 yellow "当前Socks5-WARP(+)为临时关闭状态，现执行：恢复运行……" && sleep 1
 warp-cli --accept-tos enable-always-on >/dev/null 2>&1
-[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -dmS aw bash -c '/bin/bash /root/check.sh'
-[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -dmS cr bash -c '/bin/bash /root/WARP-CR.sh'
-[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -dmS cp bash -c '/bin/bash /root/WARP-CP.sh'
+[[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
+[[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
+[[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 fi
 ShowSOCKS5 && S5menu && back;;
 0 ) WARPOC
