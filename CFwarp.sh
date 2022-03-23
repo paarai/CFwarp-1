@@ -333,6 +333,18 @@ wgcfv6=$(curl -s6m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cu
 wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 }
 
+warpup(){
+curl -Os https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
+readp "WARP状态为运行时，重新检测WARP状态间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
+[[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-UP.sh || green "默认间隔60秒"
+readp "WARP状态为中断时(连续5次失败自动关闭WARP)，继续检测WARP状态间隔时间（回车默认50秒）,请输入间隔时间（例：50秒，输入50）:" goon
+[[ -n $goon ]] && sed -i "s/50s/${goon}s/g;s/50秒/${goon}秒/g" WARP-UP.sh || green "默认间隔50秒"
+[[ -e /root/WARP-UP.sh ]] && screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh'
+green "设置screen窗口名称'up'，离线后台WARP在线守护进程" && sleep 2
+grep -qE "^ *@reboot root screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" >> /etc/crontab
+green "添加WARP在线守护进程功能，重启VPS也会自动生效"
+}
+
 CheckWARP(){
 i=0
 wg-quick down wgcf >/dev/null 2>&1
@@ -366,18 +378,8 @@ if [[ -e /root/WARP-UP.sh ]]; then
 screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh'
 else
 readtp "是否安装WARP在线监测守护进程（Y/y）？(5秒后默认为N，不安装):" warpup
-echo -e "\n"
-if [[ $warpup = [Yy] ]]; then
-curl -Os https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
-readp "WARP状态为运行时，重新检测WARP状态间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
-[[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-UP.sh || green "默认间隔60秒"
-readp "WARP状态为中断时(连续5次失败自动关闭WARP)，继续检测WARP状态间隔时间（回车默认50秒）,请输入间隔时间（例：50秒，输入50）:" goon
-[[ -n $goon ]] && sed -i "s/50s/${goon}s/g;s/50秒/${goon}秒/g" WARP-UP.sh || green "默认间隔50秒"
-[[ -e /root/WARP-UP.sh ]] && screen -S up -X quit ; screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh'
-green "设置screen窗口名称'up'，离线后台WARP在线守护进程" && sleep 2
-grep -qE "^ *@reboot root screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" /etc/crontab || echo "@reboot root screen -UdmS up bash -c '/bin/bash /root/WARP-UP.sh' >/dev/null 2>&1" >> /etc/crontab
-green "添加WARP在线守护进程功能，重启VPS也会自动生效"
-fi
+echo
+[[ $warpup = [Yy] ]] && warpup
 fi
 fi
 }
