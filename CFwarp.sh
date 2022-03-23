@@ -79,6 +79,14 @@ green "TUN守护功能已启动"
 fi
 fi
 fi
+if [[ -z $(grep 'DiG 9' /etc/hosts) ]]; then
+v4=$(curl -s4m3 https://ip.gs)
+if [ -z $v4 ]; then
+echo -e "${green}检测到VPS为纯IPV6 Only,添加dns64${plain}\n"
+echo -e nameserver 2a01:4f8:c2c:123f::1 > /etc/resolv.conf
+fi
+fi
+
 [[ $(type -P yum) ]] && yumapt='yum -y' || yumapt='apt -y'
 [[ $(type -P wget) ]] || (yellow "检测到wget未安装，升级安装中" && $yumapt update;$yumapt install wget)
 [[ $(type -P curl) ]] || (yellow "检测到curl未安装，升级安装中" && $yumapt update;$yumapt install curl)
