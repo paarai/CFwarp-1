@@ -368,8 +368,7 @@ else
 readtp "是否安装WARP在线监测守护进程（Y/y）？(5秒后默认为N，不安装):" warpup
 echo -e "\n"
 if [[ $warpup = [Yy] ]]; then
-wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
-[[ -e /root/WARP-UP.sh ]] || wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
+curl -Os https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
 readp "WARP状态为运行时，重新检测WARP状态间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
 [[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-UP.sh || green "默认间隔60秒"
 readp "WARP状态为中断时(连续5次失败自动关闭WARP)，继续检测WARP状态间隔时间（回车默认50秒）,请输入间隔时间（例：50秒，输入50）:" goon
