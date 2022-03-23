@@ -333,15 +333,6 @@ wgcfv6=$(curl -s6m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cu
 wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 }
 
-if [[ -z $(grep 'DiG 9' /etc/hosts) ]]; then
-v4v6
-checkwgcf
-if [[ -z $v4 && ! $wgcfv6 =~ on|plus ]]; then
-echo -e "${green}检测到VPS为纯IPV6 Only,添加dns64${plain}\n"
-echo -e nameserver 2a01:4f8:c2c:123f::1 > /etc/resolv.conf
-fi
-fi
-
 CheckWARP(){
 i=0
 wg-quick down wgcf >/dev/null 2>&1
@@ -378,6 +369,7 @@ readtp "是否安装WARP在线监测守护进程（Y/y）？(5秒后默认为N�
 echo -e "\n"
 if [[ $warpup = [Yy] ]]; then
 wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
+[[ -e /root/WARP-UP.sh ]] || wget -N --no-check-certificate https://raw.githubusercontents.com/kkkyg/WARP-UP/main/WARP-UP.sh
 readp "WARP状态为运行时，重新检测WARP状态间隔时间（回车默认60秒）,请输入间隔时间（例：50秒，输入50）:" stop
 [[ -n $stop ]] && sed -i "s/60s/${stop}s/g;s/60秒/${stop}秒/g" WARP-UP.sh || green "默认间隔60秒"
 readp "WARP状态为中断时(连续5次失败自动关闭WARP)，继续检测WARP状态间隔时间（回车默认50秒）,请输入间隔时间（例：50秒，输入50）:" goon
