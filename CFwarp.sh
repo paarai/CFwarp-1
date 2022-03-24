@@ -890,16 +890,17 @@ fi
 menu(){
 green "CFwarp快捷键使用指南: "
 yellow "------------------------------------------"
-blue "cf        : 显示CFwarp快捷键使用指南"
 blue "cf wd     : Wgcf-warp临时关闭"
 blue "cf wu     : Wgcf-warp临时开启"
 blue "cf wr     : Wgcf-warp重新启动"
 blue "cf 5d     : Socks5-warp临时关闭"
 blue "cf 5u     : Socks5-warp临时开启"
-blue "cf sup    : 实时显示Screen下 Wgcf-warp进程守护，退出方式：Ctrl+a+d"
-blue "cf saw    : 实时显示Screen下 刷Netflix奈飞及区域的warp IP，退出方式：Ctrl+a+d"
-blue "cf scr    : 实时显示Screen下 刷指定区域的warp IP，退出方式：Ctrl+a+d"
-blue "cf scp    : 实时显示Screen下 刷指定IP段的warp IP，退出方式：Ctrl+a+d"
+blue "cf sup    : 实时显示Screen下 Wgcf-warp进程守护          退出方式：Ctrl+a+d"
+blue "cf saw    : 实时显示Screen下 刷Netflix奈飞及区域的warp   退出方式：Ctrl+a+d"
+blue "cf scr    : 实时显示Screen下 刷指定区域的warp            退出方式：Ctrl+a+d"
+blue "cf scp    : 实时显示Screen下 刷指定IP段的warp           退出方式：Ctrl+a+d"
+blue "cf        : 显示CFwarp主菜单"
+blue "cf h      : 显示CFwarp快捷键使用指南"
 yellow "------------------------------------------"
 }
 
@@ -938,16 +939,16 @@ S5menu
 
 if [[ $# > 0 ]]; then
 case $1 in
-wd ) wgcfdn 0;;
-wu ) wgcfup 0;;
-wr ) wgcfre 0;;
-5d ) s5dn 0;;
-5u ) s5up 0;;
-sup ) screenup 0;;
-saw ) screenaw 0;;
-scr ) screencr 0;;
-scp ) screencp 0;;
-* ) menu;;
+wd ) wgcfdn ;;
+wu ) wgcfup ;;
+wr ) wgcfre ;;
+5d ) s5dn ;;
+5u ) s5up ;;
+sup ) screenup ;;
+saw ) screenaw ;;
+scr ) screencr ;;
+scp ) screencp ;;
+h ) menu;;
 esac
 else
 start
