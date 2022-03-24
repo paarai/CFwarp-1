@@ -922,23 +922,23 @@ screen -Ur cp
 }
 wgcfup(){
 wg-quick up wgcf
-WGCFmenu
+ShowWGCF && WGCFmenu
 }
 wgcfdn(){
 wg-quick down wgcf
-WGCFmenu
+ShowWGCF && WGCFmenu
 }
 wgcfre(){
 systemctl restart wg-quick@wgcf
-WGCFmenu
+ShowWGCF && WGCFmenu
 }
 s5up(){
-warp-cli --accept-tos enable-always-on
-S5menu
+warp-cli --accept-tos enable-always-on >/dev/null 2>&1
+ShowSOCKS5 && S5menu
 }
 s5dn(){
-warp-cli --accept-tos disable-always-on
-S5menu
+warp-cli --accept-tos disable-always-on >/dev/null 2>&1
+ShowSOCKS5 && S5menu
 }
 
 if [[ $# > 0 ]]; then
