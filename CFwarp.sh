@@ -529,7 +529,6 @@ mv -f wgcf-account.toml /etc/wireguard >/dev/null 2>&1
 systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
 ShowWGCF && WGCFmenu
-menu && lncf
 }
 
 SOCKS5ins(){
@@ -579,7 +578,6 @@ sleep 2 && ShowSOCKS5
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 [[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
 S5menu 
-menu && lncf
 }
 
 WARPup(){
@@ -956,7 +954,4 @@ scr ) screencr 0;;
 scp ) screencp 0;;
 h ) menu;;
 esac
-else
-start
-start_menu
 fi
