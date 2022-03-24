@@ -353,12 +353,10 @@ chmod +x /root/CFwarp.sh
 ln -sf /root/CFwarp.sh /usr/bin/cf
 fi
 }
-
 checkwgcf(){
 wgcfv6=$(curl -s6m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 }
-
 CheckWARP(){
 i=0
 wg-quick down wgcf >/dev/null 2>&1
@@ -394,7 +392,7 @@ else
 readtp "是否安装WARP在线监测守护进程（Y/y）？(5秒后默认为N，不安装):" warpup
 echo 
 if [[ $warpup = [Yy] ]]; then
-cat>/root/WARP-UP.sh<<EOF
+cat>/root/WARP-UP.sh<<-\EOF
 #!/bin/bash
 red(){ echo -e "\033[31m\033[01m$1\033[0m";}
 green(){ echo -e "\033[32m\033[01m$1\033[0m";}
@@ -528,7 +526,7 @@ mv -f wgcf-profile.conf /etc/wireguard >/dev/null 2>&1
 mv -f wgcf-account.toml /etc/wireguard >/dev/null 2>&1
 systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
-ShowWGCF && WGCFmenu
+ShowWGCF && WGCFmenu && lncf && menu
 }
 
 SOCKS5ins(){
@@ -577,7 +575,7 @@ sleep 2 && ShowSOCKS5
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 [[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
-S5menu 
+S5menu && lncf && menu
 }
 
 WARPup(){
@@ -877,10 +875,9 @@ white "甬哥Github项目  ：github.com/kkkyg"
 white "甬哥blogger博客 ：kkkyg.blogspot.com"
 white "甬哥YouTube频道 ：www.youtube.com/c/甬哥侃侃侃kkkyg"
 yellow "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-bblue " WARP-WGCF/SOCKS5安装脚本：2022.3.21更新 Beta 7 版本"  
-yellow " 切记：进入脚本快捷方式 bash CFwarp.sh "
+bblue " WARP-WGCF/SOCKS5安装脚本：2022.3.24更新 Beta 8 版本"  
+yellow " 切记：进入脚本快捷方式 cf 其他说明cf h"
 white " ========================================================================================"
-yellow " 脚本会自动提示选项4(Socks5-WARP)与选项1、2、3(Wgcf-WARP)是否兼容与安装的先后顺序"
 green "  1. 安装Wgcf-WARP:虚拟IPV4"      
 green "  2. 安装Wgcf-WARP:虚拟IPV6"      
 green "  3. 安装Wgcf-WARP:虚拟IPV4+IPV6" 
