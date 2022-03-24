@@ -347,6 +347,13 @@ blue "cf h      : 显示CFwarp快捷键使用指南"
 yellow "------------------------------------------"
 }
 
+lncf(){
+if [[ $(type -P wg-quick) || $(type -P warp-cli) ]]; then
+chmod +x /root/CFwarp.sh 
+ln -sf /root/CFwarp.sh /usr/bin/cf
+fi
+}
+
 checkwgcf(){
 wgcfv6=$(curl -s6m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
@@ -522,6 +529,7 @@ mv -f wgcf-account.toml /etc/wireguard >/dev/null 2>&1
 systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
 ShowWGCF && WGCFmenu
+menu && lncf
 }
 
 SOCKS5ins(){
@@ -570,7 +578,8 @@ sleep 2 && ShowSOCKS5
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 [[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
-S5menu
+S5menu 
+menu && lncf
 }
 
 WARPup(){
@@ -897,10 +906,6 @@ case "$Input" in
  * ) exit 
 esac
 }
-if [[ $(type -P wg-quick) || $(type -P warp-cli) ]]; then
-chmod +x /root/CFwarp.sh 
-ln -sf /root/CFwarp.sh /usr/bin/cf
-fi
 if [ $# == 0 ]; then
 start
 start_menu
@@ -940,15 +945,15 @@ S5menu
 
 if [[ $# > 0 ]]; then
 case $1 in
-wd ) wgcfdn ;;
-wu ) wgcfup ;;
-wr ) wgcfre ;;
-5d ) s5dn ;;
-5u ) s5up ;;
-sup ) screenup ;;
-saw ) screenaw ;;
-scr ) screencr ;;
-scp ) screencp ;;
+wd ) wgcfdn 0;;
+wu ) wgcfup 0;;
+wr ) wgcfre 0;;
+5d ) s5dn 0;;
+5u ) s5up 0;;
+sup ) screenup 0;;
+saw ) screenaw 0;;
+scr ) screencr 0;;
+scp ) screencp 0;;
 h ) menu;;
 esac
 else
