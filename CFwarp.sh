@@ -329,6 +329,24 @@ white "-------------------------------------------------------------------------
 WGCFmenu;S5menu 
 }
 
+menu(){
+green "kkkyg-CFwarp脚本快捷键使用指南"
+green "查看Screen状态注意（退出界面：Ctrl+a+d  终止运行：Ctrl+c）"
+yellow "------------------------------------------"
+blue "cf wd     : Wgcf-warp临时关闭"
+blue "cf wu     : Wgcf-warp临时开启"
+blue "cf wr     : Wgcf-warp重新启动"
+blue "cf 5d     : Socks5-warp临时关闭"
+blue "cf 5u     : Socks5-warp临时开启"
+blue "cf sup    : 实时显示Screen运行状态：Wgcf-warp进程守护"          
+blue "cf saw    : 实时显示Screen运行状态：刷Netflix奈飞及区域的warp"   
+blue "cf scr    : 实时显示Screen运行状态：刷指定区域的warp"            
+blue "cf scp    : 实时显示Screen运行状态：刷指定IP段的warp"          
+blue "cf        : 显示CFwarp主菜单"
+blue "cf h      : 显示CFwarp快捷键使用指南"
+yellow "------------------------------------------"
+}
+
 checkwgcf(){
 wgcfv6=$(curl -s6m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 wgcfv4=$(curl -s4m6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
@@ -503,7 +521,7 @@ mv -f wgcf-profile.conf /etc/wireguard >/dev/null 2>&1
 mv -f wgcf-account.toml /etc/wireguard >/dev/null 2>&1
 systemctl enable wg-quick@wgcf >/dev/null 2>&1
 CheckWARP
-ShowWGCF && WGCFmenu
+ShowWGCF && WGCFmenu && menu
 }
 
 SOCKS5ins(){
@@ -552,7 +570,7 @@ sleep 2 && ShowSOCKS5
 [[ -e /root/check.sh ]] && screen -S aw -X quit ; screen -UdmS aw bash -c '/bin/bash /root/check.sh'
 [[ -e /root/WARP-CR.sh ]] && screen -S cr -X quit ; screen -UdmS cr bash -c '/bin/bash /root/WARP-CR.sh'
 [[ -e /root/WARP-CP.sh ]] && screen -S cp -X quit ; screen -UdmS cp bash -c '/bin/bash /root/WARP-CP.sh'
-S5menu
+S5menu && menu
 }
 
 WARPup(){
@@ -887,23 +905,6 @@ if [ $# == 0 ]; then
 start
 start_menu
 fi
-menu(){
-green "CFwarp快捷键使用指南: "
-yellow "------------------------------------------"
-blue "cf wd     : Wgcf-warp临时关闭"
-blue "cf wu     : Wgcf-warp临时开启"
-blue "cf wr     : Wgcf-warp重新启动"
-blue "cf 5d     : Socks5-warp临时关闭"
-blue "cf 5u     : Socks5-warp临时开启"
-blue "cf sup    : 实时显示Screen下 Wgcf-warp进程守护          退出方式：Ctrl+a+d"
-blue "cf saw    : 实时显示Screen下 刷Netflix奈飞及区域的warp   退出方式：Ctrl+a+d"
-blue "cf scr    : 实时显示Screen下 刷指定区域的warp            退出方式：Ctrl+a+d"
-blue "cf scp    : 实时显示Screen下 刷指定IP段的warp           退出方式：Ctrl+a+d"
-blue "cf        : 显示CFwarp主菜单"
-blue "cf h      : 显示CFwarp快捷键使用指南"
-yellow "------------------------------------------"
-}
-
 screenup(){
 screen -Ur up
 }
