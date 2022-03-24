@@ -414,10 +414,7 @@ fi
 fi
 fi
 }
-if [[ $(type -P wg-quick) && $(type -P warp-cli) ]]; then
-chmod +x /root/CFwarp.sh 
-ln -sf /root/CFwarp.sh /usr/bin/cf
-fi
+
 dns(){
 if [[ -n $v6 && -z $v4 ]]; then
 echo -e "nameserver 2001:4860:4860::8888\nnameserver 8.8.8.8" > /etc/resolv.conf
@@ -882,6 +879,10 @@ case "$Input" in
  * ) exit 
 esac
 }
+if [[ $(type -P wg-quick) && $(type -P warp-cli) ]]; then
+chmod +x /root/CFwarp.sh 
+ln -sf /root/CFwarp.sh /usr/bin/cf
+fi
 if [ $# == 0 ]; then
 start
 start_menu
