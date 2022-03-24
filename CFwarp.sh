@@ -879,7 +879,7 @@ case "$Input" in
  * ) exit 
 esac
 }
-if [[ $(type -P wg-quick) && $(type -P warp-cli) ]]; then
+if [[ $(type -P wg-quick) || $(type -P warp-cli) ]]; then
 chmod +x /root/CFwarp.sh 
 ln -sf /root/CFwarp.sh /usr/bin/cf
 fi
