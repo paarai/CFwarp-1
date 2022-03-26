@@ -174,8 +174,8 @@ docker(){
 if [[ -n $(ip a | grep docker) ]]; then
 red "检测到VPS已安装docker，如继续安装Wgcf-WARP，docker会失效"
 sleep 3s
-yellow "3秒后继续安装，退出安装请按Ctrl+c"
-sleep 3s
+yellow "6秒后继续安装，退出安装请按Ctrl+c"
+sleep 6s
 fi
 }
 
