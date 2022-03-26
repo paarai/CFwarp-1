@@ -170,6 +170,15 @@ S5Status=$(white "Socks5 WARP状态：\c" ; red "未安装Socks5-WARP客户端")
 fi
 }
 
+docker(){
+if [[ -n $(ip a | grep docker) ]]; then
+red "检测到VPS已安装docker，如继续安装Wgcf-WARP，docker会失效"
+sleep 3s
+yellow "3秒后继续安装，退出安装请按Ctrl+c"
+sleep 3s
+fi
+}
+
 STOPwgcf(){
 if [[ $(type -P warp-cli) ]]; then
 red "已安装Socks5-WARP(+)，不支持当前选择的Wgcf-WARP(+)安装方案" 
@@ -193,7 +202,7 @@ cp -f /etc/wireguard/wgcf-profile.conf /etc/wireguard/wgcf.conf >/dev/null 2>&1
 }
 WGCFv4(){
 yellow "稍等3秒，检测VPS内WARP环境"
-checkwgcf
+docker && checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
@@ -230,7 +239,7 @@ fi
 
 WGCFv6(){
 yellow "稍等3秒，检测VPS内WARP环境"
-checkwgcf
+docker && checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
@@ -267,7 +276,7 @@ fi
 
 WGCFv4v6(){
 yellow "稍等3秒，检测VPS内WARP环境"
-checkwgcf
+docker && checkwgcf
 if [[ ! $wgcfv4 =~ on|plus && ! $wgcfv6 =~ on|plus ]]; then
 v4v6
 if [[ -n $v4 && -n $v6 ]]; then
