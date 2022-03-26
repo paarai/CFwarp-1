@@ -331,7 +331,7 @@ WGCFmenu;S5menu
 
 menu(){
 green "kkkyg-CFwarp脚本快捷键使用指南"
-green "查看Screen状态注意（退出界面：Ctrl+a+d  终止运行：Ctrl+c）"
+green "注意：进入实时显示Screen状态后，退出当前Screen界面：Ctrl+a+d  终止当前Screen运行：Ctrl+c "
 yellow "------------------------------------------"
 blue "cf wd     : Wgcf-warp临时关闭"
 blue "cf wu     : Wgcf-warp临时开启"
@@ -876,7 +876,7 @@ white "甬哥blogger博客 ：kkkyg.blogspot.com"
 white "甬哥YouTube频道 ：www.youtube.com/c/甬哥侃侃侃kkkyg"
 yellow "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 bblue " WARP-WGCF/SOCKS5安装脚本：2022.3.24更新 Beta 8 版本"  
-yellow " 切记：进入脚本快捷方式 cf 其他说明cf h"
+yellow " 切记：安装WARP成功后，进入脚本快捷方式：cf  其他说明：cf h"
 white " ========================================================================================"
 green "  1. 安装Wgcf-WARP:虚拟IPV4"      
 green "  2. 安装Wgcf-WARP:虚拟IPV6"      
