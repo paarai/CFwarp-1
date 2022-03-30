@@ -100,8 +100,8 @@ c6="sed -i 's/1.1.1.1/2001:4860:4860::8888,8.8.8.8/g' /etc/wireguard/wgcf.conf"
 ShowWGCF(){
 v6=$(curl -s6m6 https://ip.gs -k)
 v4=$(curl -s4m6 https://ip.gs -k)
-isp4=`curl -s https://api.ip.sb/geoip/$v4 -k | awk -F "isp" '{print $2}' | awk -F "offset" '{print $1}' | sed "s/[,\":]//g"`
-isp6=`curl -s https://api.ip.sb/geoip/$v6 -k | awk -F "isp" '{print $2}' | awk -F "offset" '{print $1}' | sed "s/[,\":]//g"`
+isp4=`curl -s -A "Mozilla" https://api.ip.sb/geoip/$v4 -k | awk -F "isp" '{print $2}' | awk -F "offset" '{print $1}' | sed "s/[,\":]//g"`
+isp6=`curl -s -A "Mozilla" https://api.ip.sb/geoip/$v6 -k | awk -F "isp" '{print $2}' | awk -F "offset" '{print $1}' | sed "s/[,\":]//g"`
 UA_Browser="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"
 [[ -e /etc/wireguard/wgcf+p.log ]] && cfplus="WARP+普通账户(有限WARP+流量)，设备名称：$(grep -s 'Device name' /etc/wireguard/wgcf+p.log | awk '{ print $NF }')" || cfplus="WARP+Teams账户(无限WARP+流量)"
 AE="阿联酋（United Arab Emirates）";AU="澳大利亚（Australia）";BG="保加利亚（Bulgaria）";BR="巴西（Brazil）";CA="加拿大（Canada）";CH="瑞士（Switzerland）";CL="智利（Chile)";CN="中国（China）";CO="哥伦比亚（Colombia）";DE="德国（Germany)";ES="西班牙（Spain)";FI="芬兰（Finland）";FR="法国（France）";GB="英国（United Kingdom）";HK="香港（Hong Kong）";ID="印度尼西亚（Indonesia）";IE="爱尔兰（Ireland）";IL="以色列（Israel）";IN="印度（India）";IT="意大利（Italy）";JP="日本（Japan）";KR="韩国（South Korea）";LU="卢森堡（Luxembourg）";MX="墨西哥（Mexico）";MY="马来西亚（Malaysia）";NL="荷兰（Netherlands）";NZ="新西兰（New Zealand）";PH="菲律宾（Philippines）";RO="罗马尼亚（Romania）";RU="俄罗斯（Russian）";SA="沙特（Saudi Arabia）";SE="瑞典（Sweden）";SG="新加坡（Singapore）";TW="台湾（Taiwan）";US="美国（United States）";VN="越南（Vietnam）";ZA="南非（South Africa）"
@@ -111,7 +111,7 @@ result4=$(curl -4 --user-agent "${UA_Browser}" -fsL --write-out %{http_code} --o
 [[ "$result4" == "403" ]] && NF="死心了，当前IP不支持解锁奈飞Netflix....."
 [[ "$result4" == "000" ]] && NF="检测到网络有问题，再次进入脚本可能就好了.."
 [[ "$result4" == "200" ]] && NF="恭喜呀，当前IP可解锁奈飞Netflix流媒体..."
-g4=$(eval echo \$$(curl -s https://api.ip.sb/geoip/$v4 -k | awk -F "country_code" '{print $2}' | awk -F "region_code" '{print $1}' | sed "s/[,\":}]//g"))
+g4=$(eval echo \$$(curl -s -A "Mozilla" https://api.ip.sb/geoip/$v4 -k | awk -F "country_code" '{print $2}' | awk -F "region_code" '{print $1}' | sed "s/[,\":}]//g"))
 wgcfv4=$(curl -s4 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 case ${wgcfv4} in 
 plus) 
@@ -130,7 +130,7 @@ result6=$(curl -6 --user-agent "${UA_Browser}" -fsL --write-out %{http_code} --o
 [[ "$result6" == "403" ]] && NF="死心了，当前IP不支持解锁奈飞Netflix....."
 [[ "$result6" == "000" ]] && NF="检测到网络有问题，再次进入脚本可能就好了.."
 [[ "$result6" == "200" ]] && NF="恭喜呀，当前IP可解锁奈飞Netflix流媒体..."
-g6=$(eval echo \$$(curl -s https://api.ip.sb/geoip/$v6 -k | awk -F "country_code" '{print $2}' | awk -F "region_code" '{print $1}' | sed "s/[,\":}]//g"))
+g6=$(eval echo \$$(curl -s -A "Mozilla" https://api.ip.sb/geoip/$v6 -k | awk -F "country_code" '{print $2}' | awk -F "region_code" '{print $1}' | sed "s/[,\":}]//g"))
 wgcfv6=$(curl -s6 https://www.cloudflare.com/cdn-cgi/trace -k | grep warp | cut -d= -f2) 
 case ${wgcfv6} in 
 plus) 
@@ -156,7 +156,7 @@ result=$(curl -sx socks5h://localhost:$mport -fsL --write-out %{http_code} --out
 [[ "$result" == "200" ]] && NF="恭喜呀，当前IP可解锁奈飞Netflix流媒体..."
 socks5=$(curl -sx socks5h://localhost:$mport www.cloudflare.com/cdn-cgi/trace -k --connect-timeout 2 | grep warp | cut -d= -f2) 
 s5ip=`curl -sx socks5h://localhost:$mport ip.gs -k`
-s5gj=$(eval echo \$$(curl -s https://api.ip.sb/geoip/$S5ip -k | awk -F "country_code" '{print $2}' | awk -F "region_code" '{print $1}' | sed "s/[,\":}]//g"))
+s5gj=$(eval echo \$$(curl -s -A "Mozilla" https://api.ip.sb/geoip/$S5ip -k | awk -F "country_code" '{print $2}' | awk -F "region_code" '{print $1}' | sed "s/[,\":}]//g"))
 case ${socks5} in 
 plus) 
 S5Status=$(white "Socks5 WARP+状态：\c" ; rred "运行中，WARP+普通账户(剩余WARP+流量:$((`warp-cli --accept-tos account | grep Quota | awk '{ print $(NF) }'`/1000000000))GiB)" ; white " Socks5 端口：\c" ; rred "$mport" ; white " [ Cloudflare服务商 ]获取IPV4：\c" ; rred "$s5ip" ; white " IPV4 奈飞NF解锁情况：\c" ; rred "$NF  \c" ; white " IPV4 所在地区：\c" ; rred "$s5gj");;  
